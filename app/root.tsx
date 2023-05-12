@@ -13,6 +13,11 @@ import stylesheet from "~/style/tailwind.css";
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
   { rel: "stylesheet", href: stylesheet },
+  {
+    rel: "icon",
+    href: "/favicon-light.png",
+    type: "image/png",
+  },
 ];
 export const meta: V2_MetaFunction = () => {
   return [
