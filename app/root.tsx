@@ -21,7 +21,7 @@ export const links: LinksFunction = () => [
 ];
 export const meta: V2_MetaFunction = () => {
   return [
-    { title: "Ngatso" },
+    { title: "Tibetan Homemade Product" },
     {
       property: "og:title",
       content: "Tibetan Ecommerce",

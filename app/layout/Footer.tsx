@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
     <footer className=" z-20 w-full p-4 bg-white border-t border-gray-200 shadow md:flex md:items-center md:justify-between md:p-6 dark:bg-gray-800 dark:border-gray-600">
-      <span className=" flex items-center text-sm text-gray-500 sm:text-center dark:text-gray-400">
+      {/* <span className=" flex items-center text-sm text-gray-500 sm:text-center dark:text-gray-400">
         <a href="https://flowbite.com" className="flex items-center">
           <img
             src="https://images.squarespace-cdn.com/content/v1/60de2756bdea384623d3b191/025cc96d-48ff-459f-8c35-a5b4a0d82bc2/BlackLogo.png?format=1500w"
@@ -35,7 +35,7 @@ export default function Footer() {
             Contact
           </a>
         </li>
-      </ul>
+      </ul> */}
     </footer>
   );
 }
