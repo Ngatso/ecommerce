@@ -10,9 +10,12 @@ import {
   V2_MetaFunction,
 } from "@remix-run/react";
 import stylesheet from "~/style/tailwind.css";
+import globalsheet from "~/style/global.css";
+
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
   { rel: "stylesheet", href: stylesheet },
+  { rel: "stylesheet", href: globalsheet },
   {
     rel: "icon",
     href: "/favicon-light.png",

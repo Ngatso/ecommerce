@@ -1,6 +1,11 @@
+import { useEffect, useRef, useState } from "react";
+
 export default function Header() {
+  const [menu1Open, setMenu1Open] = useState(false);
+  const [menu2Open, setMenu2Open] = useState(false);
+
   return (
-    <header className="shadow-md sticky top-0">
+    <header className=" shadow-md sticky top-0 transition-all ">
       <nav className="bg-white border-gray-200 dark:border-gray-600 dark:bg-gray-800">
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl px-4 md:px-6 py-2.5">
           <a href="https://flowbite.com" className="flex items-center">
@@ -186,306 +191,113 @@ export default function Header() {
             </div>
           </form>
           <div className="flex items-center lg:order-1">
-            <ul className="flex flex-row mt-0 space-x-8 text-sm font-medium">
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-500"
-                  aria-current="page"
-                >
-                  Shop
-                </a>
+            <ul className="flex  mt-0 space-x-8 text-sm font-medium">
+              <li
+                className="relative block px-4 py-2 text-gray-800"
+                onMouseEnter={() => {
+                  setMenu1Open(true);
+                  setMenu2Open(false);
+                }}
+                onClick={() => setMenu1Open((p) => !p)}
+                style={{
+                  fontSize: 18,
+                }}
+              >
+                Shopping
               </li>
-              <li>
-                <button
-                  id="dropdown-button-megamenu"
-                  data-collapse-toggle="megamenu"
-                  className="flex justify-between items-center w-full font-medium dark:hover:text-primary-500 md:p-0 md:w-auto dark:text-white hover:text-primary-500 dark:focus:text-primary-500"
-                >
-                  Community
-                  <svg
-                    className="ml-1 w-4 h-4"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                      clipRule="evenodd"
-                    ></path>
-                  </svg>
-                </button>
+              <li
+                className="relative block px-4 py-2 text-gray-800"
+                style={{
+                  fontSize: 18,
+                }}
+                onMouseEnter={() => {
+                  setMenu2Open(true);
+                  setMenu1Open(false);
+                }}
+                onClick={() => setMenu2Open((p) => !p)}
+              >
+                Community
               </li>
             </ul>
           </div>
         </div>
       </nav>
-      <nav
-        id="megamenu"
-        className="hidden bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-600 "
+
+      <div
+        onMouseLeave={() => setMenu1Open(false)}
+        className={`${
+          !menu1Open && "hidden"
+        } dropdown absolute top-[100%] left-0 right-0 w-full bg-white py-2 shadow-lg`}
       >
-        <div className="grid py-4 px-4 mx-auto max-w-screen-xl text-gray-900 dark:text-white md:grid-cols-2 lg:grid-cols-4 md:px-6">
-          <ul className="col-span-2 md:col-span-1">
-            <li>
-              <a
-                href="#"
-                className="flex p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
-              >
-                <svg
-                  className="mr-2 w-6 h-6"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-                <div>
-                  <div className="font-semibold">Online Stores</div>
-                  <span className="text-sm font-light text-gray-500 dark:text-gray-400">
-                    Connect with third-party tools that you're already using.
-                  </span>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="flex p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
-              >
-                <svg
-                  className="mr-2 w-6 h-6"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-                <div>
-                  <div className="font-semibold">Segmentation</div>
-                  <span className="text-sm font-light text-gray-500 dark:text-gray-400">
-                    Connect with third-party tools that you're already using.
-                  </span>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="flex p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
-              >
-                <svg
-                  className="mr-2 w-6 h-6"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-                <div>
-                  <div className="font-semibold">Marketing CRM</div>
-                  <span className="text-sm font-light text-gray-500 dark:text-gray-400">
-                    Connect with third-party tools that you're already using.
-                  </span>
-                </div>
-              </a>
-            </li>
-          </ul>
-          <ul className="col-span-2 md:col-span-1">
-            <li>
-              <a
-                href="#"
-                className="flex p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
-              >
-                <svg
-                  className="mr-2 w-6 h-6"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-                <div>
-                  <div className="font-semibold">Audience Management</div>
-                  <span className="text-sm font-light text-gray-500 dark:text-gray-400">
-                    Connect with third-party tools that you're already using.
-                  </span>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="flex p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
-              >
-                <svg
-                  className="mr-2 w-6 h-6"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-                <div>
-                  <div className="font-semibold">Creative Tools</div>
-                  <span className="text-sm font-light text-gray-500 dark:text-gray-400">
-                    Connect with third-party tools that you're already using.
-                  </span>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="flex p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
-              >
-                <svg
-                  className="mr-2 w-6 h-6"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-                <div>
-                  <div className="font-semibold">Marketing Automation</div>
-                  <span className="text-sm font-light text-gray-500 dark:text-gray-400">
-                    Connect with third-party tools that you're already using.
-                  </span>
-                </div>
-              </a>
-            </li>
-          </ul>
-          <ul className="hidden lg:block">
-            <li>
-              <a
-                href="#"
-                className="flex p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
-              >
-                <svg
-                  className="mr-2 w-6 h-6"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-                <div>
-                  <div className="font-semibold">Dynamic Content</div>
-                  <span className="text-sm font-light text-gray-500 dark:text-gray-400">
-                    Connect with third-party tools that you're already using.
-                  </span>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="flex p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
-              >
-                <svg
-                  className="mr-2 w-6 h-6"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-                <div>
-                  <div className="font-semibold">Integrations</div>
-                  <span className="text-sm font-light text-gray-500 dark:text-gray-400">
-                    Connect with third-party tools that you're already using.
-                  </span>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="flex p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
-              >
-                <svg
-                  className="mr-2 w-6 h-6"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-                <div>
-                  <div className="font-semibold">Careers</div>
-                  <span className="text-sm font-light text-gray-500 dark:text-gray-400">
-                    Connect with third-party tools that you're already using.
-                  </span>
-                </div>
-              </a>
-            </li>
-          </ul>
-          <div className="col-span-2 p-4 lg:col-span-1">
-            <h2 className="mb-2 font-semibold text-gray-900 dark:text-white">
-              Our brands
-            </h2>
-            <p className="mb-2 font-light text-gray-500 dark:text-gray-400">
-              At JBS Foods, we pride ourselves on a portfolio of brands that
-              cater to a variety of preferences.
-            </p>
-            <a
-              href="#"
-              className="inline-flex items-center text-sm font-medium text-primary-600 hover:text-primary-600 dark:text-primary-500 dark:hover:text-primary-400"
-            >
-              Explore our brands{" "}
-              <svg
-                className="ml-1 w-4 h-4"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
-                  clipRule="evenodd"
-                ></path>
-              </svg>
-            </a>
+        <div className="p-3 flex justify-between gap-5 ml-5 h-full">
+          <div className="flex flex-1 gap-8 ml-5 h-full">
+            <ul className="flex flex-col gap-4 w-fit">
+              <h2 className="text-xl  font-extrabold">Kids</h2>
+              <li>Storybook</li>
+              <li>Doll Accessories</li>
+              <li>Dolls</li>
+            </ul>
+            <ul className="flex ml-3 flex-col gap-4">
+              <h2 className="text-xl font-extrabold">Art Work</h2>
+              <li>Paper Sculpture</li>
+              <li>Print</li>
+              <li>Wall Hanging</li>
+            </ul>
+            <ul className="flex ml-3 flex-col gap-4">
+              <h2 className="text-xl font-extrabold">Clothing</h2>
+              <li>T-shirts</li>
+              <li>Jackets</li>
+              <li>Hat</li>
+              <li>Accessories</li>
+            </ul>
+            <ul className="flex ml-3 flex-col gap-4">
+              <h2 className="text-xl font-extrabold">Brand</h2>
+              <li>Men-Tsee-Khang</li>
+              <li>Tenzin Quilling</li>
+            </ul>
+          </div>
+          <div className="">
+            <img
+              className="w-[270px]"
+              src="https://images.squarespace-cdn.com/content/v1/60de2756bdea384623d3b191/55d94b2b-eee9-4719-97da-16de98604df1/sharWide.jpg?format=750w"
+            />
           </div>
         </div>
-      </nav>
+      </div>
+
+      <div
+        onMouseLeave={() => setMenu2Open(false)}
+        className={`${
+          !menu2Open && "hidden"
+        } overflow-hidden dropdown max-h-[300px] absolute top-[100%] left-0 right-0 w-full bg-white py-2 shadow-lg`}
+      >
+        <div className="p-3 flex justify-between gap-5 ml-5 h-full">
+          <div className="flex flex-1 gap-8 ml-5 h-full">
+            <ul className="flex flex-col gap-4 w-fit">
+              <h2 className="text-xl  font-extrabold">New Delhi</h2>
+              <li>Ngatso Fest</li>
+              <li>Events</li>
+              <li>Monasteries</li>
+              <li>Services</li>
+              <li>Eats</li>
+            </ul>
+            <ul className="flex ml-3 flex-col gap-4">
+              <h2 className="text-xl font-extrabold">Dharamsala</h2>
+              <li>Events</li>
+              <li>Monasteries</li>
+            </ul>
+            <ul className="flex ml-3 flex-col gap-4">
+              <h2 className="text-xl font-extrabold">Coming soon</h2>
+            </ul>
+          </div>
+          <div className="">
+            <img
+              className="w-[270px]"
+              src="https://images.squarespace-cdn.com/content/v1/60de2756bdea384623d3b191/928b31a3-d83b-43c4-8a93-781b8178f09c/dalai+lama+globally.png?format=750w"
+            />
+          </div>
+        </div>
+      </div>
     </header>
   );
 }
