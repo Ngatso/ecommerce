@@ -1,17 +1,19 @@
-// app/services/session.server.ts
 import { createCookieSessionStorage } from "@remix-run/node";
 
-// export the whole sessionStorage object
-export let sessionStorage = createCookieSessionStorage({
-  cookie: {
-    name: "_session", // use any name you want here
-    sameSite: "lax", // this helps with CSRF
-    path: "/", // remember to add this so the cookie will work in all routes
-    httpOnly: true, // for security reasons, make this cookie http only
-    secrets: ["s3cr3t"], // replace this with an actual secret
-    secure: process.env.NODE_ENV === "production", // enable this in prod only
-  },
-});
+const { getSession, commitSession, destroySession } =
+  createCookieSessionStorage({
+    cookie: {
+      name: "sb:token",
+      sameSite: "lax",
+      secret: ["s3cret1"],
+    },
+  });
 
-// you can also export the methods individually for your own usage
-export let { getSession, commitSession, destroySession } = sessionStorage;
+export async function getUserSession(request: Request) {
+  const session = await getSession(request.headers.get("Cookie"));
+  let user = session.get("user")?.user;
+
+  return user;
+}
+
+export { getSession, commitSession, destroySession };

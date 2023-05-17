@@ -1,30 +1,43 @@
-import type {
+import {
+  ActionArgs,
+  ActionFunction,
   LoaderArgs,
   LoaderFunction,
   V2_MetaFunction,
+  redirect,
 } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import Footer from "~/layout/Footer";
+import { createBrowserClient } from "@supabase/auth-helpers-remix";
 import Header from "~/layout/Header";
 import Hero from "~/layout/Hero";
-import Products from "~/layout/Products";
+import {
+  destroySession,
+  getSession,
+  getUserSession,
+} from "~/services/session.server";
 
 export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
-  let res = await fetch(
-    "https://fakestoreapi.com/products/category/men's clothing"
-  );
-  let category = await res.json();
-  return { product_category: category };
+  const redirectTo = new URL(request.url).pathname;
+  let user = await getUserSession(request);
+
+  return { user };
+};
+
+export const action: ActionFunction = async ({ request }: ActionArgs) => {
+  // get session
+  let session = await getSession(request.headers.get("Cookie"));
+
+  // destroy session and redirect to login page
+  return redirect("/", {
+    headers: { "Set-Cookie": await destroySession(session) },
+  });
 };
 
 export default function Index() {
-  const data = useLoaderData();
-  let { product_category } = data;
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
       <Header />
       <Hero />
-      <Products products={product_category} />
     </div>
   );
 }

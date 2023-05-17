@@ -1,24 +1,19 @@
-import { PrismaClient } from "@prisma/client";
+import { createClient } from "@supabase/supabase-js";
+import { getSession } from "./session.server";
 
-let db: PrismaClient;
+// see documention about using .env variables
+// https://remix.run/docs/en/v1/guides/envvars#server-environment-variables
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
 
-declare global {
-  var __db__: PrismaClient;
-}
-
-// this is needed because in development we don't want to restart
-// the server with every change, but we want to make sure we don't
-// create a new connection to the DB with every change either.
-// in production we'll have a single connection to the DB.
-if (process.env.NODE_ENV === "production") {
-  db = new PrismaClient();
-} else {
-  if (!global.__db__) {
-    global.__db__ = new PrismaClient();
-  }
-  db = global.__db__;
-
-  db.$connect();
-}
-
-export { db };
+export const supabaseClient = createClient(SUPABASE_URL!, SUPABASE_ANON_KEY!);
+/**
+ *
+ * @param {*} request
+ * @returns
+ */
+export const hasAuthSession = async (request) => {
+  let session = await getSession(request.headers.get("Cookie"));
+  if (!session.has("access_token")) throw Error("No session");
+  supabaseClient.auth.setAuth(session.get("access_token"));
+};

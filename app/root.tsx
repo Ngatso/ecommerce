@@ -1,5 +1,9 @@
 import { cssBundleHref } from "@remix-run/css-bundle";
-import type { LinksFunction } from "@remix-run/node";
+import type {
+  LinksFunction,
+  LoaderArgs,
+  LoaderFunction,
+} from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -8,9 +12,12 @@ import {
   Scripts,
   ScrollRestoration,
   V2_MetaFunction,
+  useLoaderData,
 } from "@remix-run/react";
 import stylesheet from "~/style/tailwind.css";
 import globalsheet from "~/style/global.css";
+import { createBrowserClient } from "@supabase/auth-helpers-remix";
+import { useEffect, useState } from "react";
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
@@ -35,6 +42,7 @@ export const meta: V2_MetaFunction = () => {
     },
   ];
 };
+
 export default function App() {
   return (
     <html lang="en">

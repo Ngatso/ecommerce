@@ -1,9 +1,10 @@
+import { Form, Link, useFetcher, useLoaderData } from "@remix-run/react";
 import { useEffect, useRef, useState } from "react";
 
 export default function Header() {
+  let { user } = useLoaderData();
   const [menu1Open, setMenu1Open] = useState(false);
   const [menu2Open, setMenu2Open] = useState(false);
-
   return (
     <header className=" shadow-md sticky top-0 transition-all ">
       <nav className="bg-white border-gray-200 dark:border-gray-600 dark:bg-gray-800">
@@ -19,12 +20,20 @@ export default function Header() {
             </span>
           </a>
           <div className="flex items-center">
-            <a
-              href="#"
-              className="text-sm font-medium text-primary-600 dark:text-primary-500 hover:underline"
-            >
-              Login
-            </a>
+            {user ? (
+              <Form method="post">
+                <button className="bg-slate-700 rounded-sm w-fit px-8 mr-4 text-white">
+                  LOGOUT
+                </button>
+              </Form>
+            ) : (
+              <Link
+                to="/login"
+                className="text-sm font-medium text-primary-600 dark:text-primary-500 hover:underline"
+              >
+                Login
+              </Link>
+            )}
             <span className="mr-0 ml-2 w-px h-5 bg-gray-200 dark:bg-gray-600 lg:inline lg:mr-3 lg:ml-5"></span>
             <a
               href="#"

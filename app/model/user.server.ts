@@ -1,21 +1,27 @@
 import { db } from "~/services/db.server";
 
-export async function findOrCreateUser(
-  username: string,
-  hashedPassword: string
-) {
+export async function find(username: string) {
   // Try to find the user by username
   let user = await db.user.findUnique({ where: { username } });
 
-  // If user doesn't exist, create a new user
-  if (!user) {
-    user = await db.user.create({
+  return user;
+}
+
+export async function create(
+  username: string,
+  email: string,
+  password: string
+) {
+  try {
+    let createdUser = await db.user.create({
       data: {
         username,
-        password: hashedPassword,
+        email,
+        password,
       },
     });
+    return createdUser;
+  } catch (e) {
+    throw new Error("cannot create a user");
   }
-
-  return user;
 }
