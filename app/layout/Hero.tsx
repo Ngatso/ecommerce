@@ -1,3 +1,5 @@
+import { Link } from "@remix-run/react";
+
 export default function Hero() {
   return (
     <section className="flex flex-col md:flex-row items-center justify-center">
@@ -17,9 +19,13 @@ export default function Hero() {
         <p className="text-white" style={{ fontSize: 21 }}>
           Check out these beautifully made cotton scarfs.
         </p>
-        <button className="p-4 mt-8 bg-white rounded font-serif" type="button">
+        <Link
+          to={"/scarf"}
+          className="p-4 mt-8 bg-white rounded font-serif"
+          type="button"
+        >
           Shop Summer Scarfs
-        </button>
+        </Link>
       </div>
       <div className="max-w-[500px] text-center">
         An effort to connect you closer to Tibetan culture Ngatso comes in with
