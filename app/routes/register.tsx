@@ -1,14 +1,9 @@
 import { ActionArgs, ActionFunction, json, redirect } from "@remix-run/node";
-import {
-  Form,
-  Link,
-  useFetcher,
-  useLoaderData,
-  useOutletContext,
-} from "@remix-run/react";
+import { Link, useFetcher } from "@remix-run/react";
 import { createBrowserClient } from "@supabase/auth-helpers-remix";
+import { supabaseClient } from "~/services/db.server";
 
-import { useState } from "react";
+import { commitSession, getSession } from "~/services/session.server";
 
 const validateForm = (
   email: string,
@@ -34,41 +29,65 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
   let password = formData.get("password") as string;
   let password2 = formData.get("password2") as string;
   let error = validateForm(email, password, password2);
+
   if (error) {
     return json({
-      message: error,
+      validatationError: error,
     });
   } else {
     const supabase = createBrowserClient(
       process.env.SUPABASE_URL!,
       process.env.SUPABASE_ANON_KEY!
     );
-
-    let auth = await supabase.auth.signUp({
-      email,
-      password,
-    });
-    if (auth?.data?.user?.aud === "authenticated") {
-      return redirect("/login", {
-        headers: request.headers,
+    try {
+      let auth = await supabase.auth.signUp({
+        email,
+        password,
       });
+      if (
+        auth.data.user &&
+        auth.data.user.identities &&
+        auth.data.user.identities.length === 0
+      ) {
+        return { error: "user already exist" };
+      }
+      let { data, error } = await supabase.auth.getUser(
+        auth.data.session?.access_token
+      );
+
+      if (data.user) {
+        let session = await getSession(request.headers.get("Cookie"));
+        session.set("accessToken", auth.data.session?.access_token);
+        session.set("user", auth.data.user);
+        return redirect("/", {
+          headers: {
+            "set-cookie": await commitSession(session),
+          },
+        });
+      } else if (error) {
+        return { error };
+      }
+    } catch (e) {
+      console.log(e);
     }
   }
 };
 
 export default function Register() {
   let formFetcher = useFetcher();
-  let error = formFetcher.data;
+  let data = formFetcher.data;
+
   return (
     <div className="h-screen w-screen flex flex-col justify-center items-center">
-      {error?.message &&
-        error?.message?.map((l, i) => {
+      {data?.validationError?.message &&
+        data?.validationError?.map((l, i) => {
           return (
             <p key={i} className="text-red-300">
               {l}
             </p>
           );
         })}
+      {data?.error && <div>{data.error}</div>}
       <formFetcher.Form
         method="post"
         className="flex flex-col gap-3 shadow p-5 rounded"
@@ -122,7 +141,7 @@ export default function Register() {
             placeholder="confirm password"
           ></input>
         </div>
-        <div className="flex justify-between">
+        <div className="flex justify-between items-center gap-4">
           <button
             type="submit"
             className="bg-gray-200 shadow bold p-2 hover:bg-gray-300"

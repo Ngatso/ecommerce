@@ -11,7 +11,7 @@ const { getSession, commitSession, destroySession } =
 
 export async function getUserSession(request: Request) {
   const session = await getSession(request.headers.get("Cookie"));
-  let user = session.get("user")?.user;
+  let user = session.get("user");
 
   return user;
 }

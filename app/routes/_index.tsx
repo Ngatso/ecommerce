@@ -10,27 +10,22 @@ import { useLoaderData } from "@remix-run/react";
 import { createBrowserClient } from "@supabase/auth-helpers-remix";
 import Header from "~/layout/Header";
 import Hero from "~/layout/Hero";
+import { supabaseClient } from "~/services/db.server";
 import {
   destroySession,
   getSession,
   getUserSession,
 } from "~/services/session.server";
 
-export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
-  const redirectTo = new URL(request.url).pathname;
-  let user = await getUserSession(request);
-
-  return { user };
-};
-
-export const action: ActionFunction = async ({ request }: ActionArgs) => {
-  // get session
+export const loader: LoaderFunction = async ({
+  request,
+  params,
+}: LoaderArgs) => {
   let session = await getSession(request.headers.get("Cookie"));
+  let access_token = session.get("accessToken");
 
-  // destroy session and redirect to login page
-  return redirect("/", {
-    headers: { "Set-Cookie": await destroySession(session) },
-  });
+  if (!access_token) return { data: { user: null }, error: null };
+  return await supabaseClient.auth.getUser(access_token);
 };
 
 export default function Index() {
