@@ -1,10 +1,30 @@
-import { LoaderArgs, LoaderFunction, json } from "@remix-run/node";
-import { useFetcher, useLoaderData, useOutletContext } from "@remix-run/react";
-import { createBrowserClient } from "@supabase/auth-helpers-remix";
-import Hero from "~/layout/Hero";
+import {
+  ActionArgs,
+  ActionFunction,
+  LoaderArgs,
+  json,
+  redirect,
+} from "@remix-run/node";
+import {
+  Form,
+  Link,
+  useActionData,
+  useAsyncValue,
+  useFetcher,
+  useLoaderData,
+  useNavigate,
+  useNavigation,
+  useOutletContext,
+} from "@remix-run/react";
 import { createServerClient } from "~/services/db.server";
 import { useState, useEffect } from "react";
-export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
+import Login from "~/component/UI/Login";
+import { createBrowserClient } from "@supabase/auth-helpers-remix";
+import Spinner from "~/component/UI/Spinner";
+export const loader = async ({ request }: LoaderArgs) => {
+  // environment variables may be stored somewhere other than
+  // `process.env` in runtimes other than node
+  // we need to pipe these Supabase environment variables to the browser
   const env = {
     SUPABASE_URL: process.env.SUPABASE_URL!,
     SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY!,
@@ -19,7 +39,7 @@ export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
   const {
     data: { session },
   } = await supabase.auth.getSession();
-
+  if (session) return redirect("/");
   // in order for the set-cookie header to be set,
   // headers must be returned as part of the loader response
   return json(
@@ -33,15 +53,13 @@ export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
   );
 };
 
-export default function Index() {
+export default function Screen() {
   const { env, session } = useLoaderData<typeof loader>();
   const refreshFetcher = useFetcher();
   const [supabase] = useState(() =>
     createBrowserClient(env.SUPABASE_URL, env.SUPABASE_ANON_KEY)
   );
-
   const serverAccessToken = session?.access_token;
-
   useEffect(() => {
     const {
       data: { subscription },
@@ -50,6 +68,8 @@ export default function Index() {
         session?.access_token !== serverAccessToken &&
         refreshFetcher.state === "idle"
       ) {
+        // server and client are out of sync.
+        // Remix recalls active loaders after actions complete
         refreshFetcher.submit(null, {
           method: "post",
           action: "/handle-supabase-auth",
@@ -61,10 +81,6 @@ export default function Index() {
       subscription.unsubscribe();
     };
   }, [serverAccessToken, supabase, refreshFetcher]);
-
-  return (
-    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
-      <Hero />
-    </div>
-  );
+  if (refreshFetcher.state !== "idle") return <Spinner />;
+  return <Login session={session} supabase={supabase} />;
 }

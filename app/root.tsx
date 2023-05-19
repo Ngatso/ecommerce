@@ -1,8 +1,9 @@
 import { cssBundleHref } from "@remix-run/css-bundle";
-import type {
+import {
   LinksFunction,
   LoaderArgs,
   LoaderFunction,
+  json,
 } from "@remix-run/node";
 import {
   Links,
@@ -12,13 +13,15 @@ import {
   Scripts,
   ScrollRestoration,
   V2_MetaFunction,
+  useFetcher,
   useLoaderData,
 } from "@remix-run/react";
 import stylesheet from "~/style/tailwind.css";
 import globalsheet from "~/style/global.css";
+import Header from "./layout/Header";
+import { createServerClient } from "./services/db.server";
 import { createBrowserClient } from "@supabase/auth-helpers-remix";
 import { useEffect, useState } from "react";
-
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
   { rel: "stylesheet", href: stylesheet },
@@ -42,8 +45,71 @@ export const meta: V2_MetaFunction = () => {
     },
   ];
 };
+export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
+  const env = {
+    SUPABASE_URL: process.env.SUPABASE_URL!,
+    SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY!,
+  };
 
+  // We can retrieve the session on the server and hand it to the client.
+  // This is used to make sure the session is available immediately upon rendering
+  const response = new Response();
+
+  const supabase = createServerClient({ request, response });
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  // in order for the set-cookie header to be set,
+  // headers must be returned as part of the loader response
+  return json(
+    {
+      env,
+      user,
+      session,
+    },
+    {
+      headers: response.headers,
+    }
+  );
+};
 export default function App() {
+  const { env, user, session } = useLoaderData<typeof loader>();
+
+  const refreshFetcher = useFetcher();
+  const [supabase] = useState(() =>
+    createBrowserClient(env.SUPABASE_URL, env.SUPABASE_ANON_KEY)
+  );
+
+  const serverAccessToken = session?.access_token;
+
+  useEffect(() => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      if (
+        session?.access_token !== serverAccessToken &&
+        refreshFetcher.state === "idle"
+      ) {
+        // server and client are out of sync.
+        // Remix recalls active loaders after actions complete
+        refreshFetcher.submit(null, {
+          method: "post",
+          action: "/handle-supabase-auth",
+        });
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [serverAccessToken, supabase, refreshFetcher]);
+
   return (
     <html lang="en">
       <head>
@@ -53,7 +119,9 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Outlet />
+        <Header user={user} supabase={supabase} />
+
+        <Outlet context={{ supabase, session }} />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />

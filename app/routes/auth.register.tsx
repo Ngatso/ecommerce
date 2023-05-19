@@ -1,10 +1,25 @@
-import { ActionArgs, ActionFunction, json, redirect } from "@remix-run/node";
+import {
+  ActionArgs,
+  ActionFunction,
+  LoaderArgs,
+  LoaderFunction,
+  json,
+  redirect,
+} from "@remix-run/node";
 import { Link, useFetcher } from "@remix-run/react";
 import { createBrowserClient } from "@supabase/auth-helpers-remix";
-import { supabaseClient } from "~/services/db.server";
+import Spinner from "~/component/UI/Spinner";
+import { createServerClient } from "~/services/db.server";
 
-import { commitSession, getSession } from "~/services/session.server";
-
+export async function loader<LoaderFunction>({ request }: LoaderArgs) {
+  const response = new Response();
+  const supabase = createServerClient({ request, response });
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  if (session) return redirect("/");
+  return null;
+}
 const validateForm = (
   email: string,
   password: string,
@@ -78,7 +93,7 @@ export default function Register() {
   let data = formFetcher.data;
 
   return (
-    <div className="h-screen w-screen flex flex-col justify-center items-center">
+    <div className=" w-screen mt-28 flex flex-col justify-center items-center">
       {data?.validationError?.message &&
         data?.validationError?.map((l, i) => {
           return (
@@ -141,6 +156,7 @@ export default function Register() {
             placeholder="confirm password"
           ></input>
         </div>
+        {formFetcher.state !== "idle" && <Spinner />}
         <div className="flex justify-between items-center gap-4">
           <button
             type="submit"
@@ -148,7 +164,7 @@ export default function Register() {
           >
             Sign Up
           </button>
-          <Link to="/login" className="text-gray-400 hover:text-gray-500">
+          <Link to="/auth/login" className="text-gray-400 hover:text-gray-500">
             Log In
           </Link>
         </div>
