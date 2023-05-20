@@ -4,27 +4,42 @@ export default function Hero() {
   return (
     <section className="flex flex-col md:flex-row items-center justify-center">
       <div
-        className="flex flex-1 rounded bg-black items-center justify-center flex-col p-3 h-full"
+        className="relative flex flex-1 rounded  items-center justify-center flex-col p-3 h-full "
         style={{
           height: "60vh",
         }}
       >
+        <video
+          className="absolute top-0 left-0 w-full h-full object-cover "
+          autoPlay
+          loop
+          muted
+          playsInline
+          style={{ opacity: 1, zIndex: -1 }}
+        >
+          <source
+            src="https://static.videezy.com/system/resources/previews/000/034/316/original/P1170066_5.mp4"
+            type="video/mp4"
+          />
+        </video>
         <img
           style={{
             width: 454.989,
             height: 190,
+            zIndex: -1,
           }}
           src="https://images.squarespace-cdn.com/content/v1/60de2756bdea384623d3b191/148d06ee-b724-4fb9-855d-993b4cf6b6a7/New+Arrivals.png?format=750w"
         />
         <p className="text-white" style={{ fontSize: 21 }}>
-          Check out these beautifully made cotton scarfs.
+          Discover our exquisite collection of cotton coats, meticulously
+          crafted to adorn your style.
         </p>
         <Link
-          to={"/scarf"}
+          to={"/Coat"}
           className="p-4 mt-8 bg-white rounded font-serif"
           type="button"
         >
-          Shop Summer Scarfs
+          Shop Summer Coat
         </Link>
       </div>
       <div className="max-w-[500px] text-center">

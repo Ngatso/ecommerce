@@ -19,7 +19,7 @@ export default function Header({ user, supabase }) {
     return <div className="bg-red-300">{error.message}</div>;
   }
   return (
-    <header className=" shadow-md sticky top-0 transition-all ">
+    <header className=" shadow-md sticky top-0 transition-all z-10 ">
       <nav className="bg-white border-gray-200 dark:border-gray-600 dark:bg-gray-800">
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl px-4 md:px-6 py-2.5">
           <Link to="/" className="flex items-center">
@@ -252,7 +252,7 @@ export default function Header({ user, supabase }) {
         onMouseLeave={() => setMenu1Open(false)}
         className={`${
           !menu1Open && "hidden"
-        } dropdown absolute top-[100%] left-0 right-0 w-full bg-white py-2 shadow-lg`}
+        } dropdown absolute top-[100%] left-0 right-0 w-full bg-white py-2 shadow-lg z-10`}
       >
         <div className="p-3 flex justify-between gap-5 ml-5 h-full">
           <div className="flex flex-1 gap-8 ml-5 h-full">
@@ -294,7 +294,7 @@ export default function Header({ user, supabase }) {
         onMouseLeave={() => setMenu2Open(false)}
         className={`${
           !menu2Open && "hidden"
-        } overflow-hidden dropdown max-h-[300px] absolute top-[100%] left-0 right-0 w-full bg-white py-2 shadow-lg`}
+        } overflow-hidden dropdown max-h-[300px] absolute top-[100%] left-0 right-0 w-full bg-white py-2 shadow-lg z-10`}
       >
         <div className="p-3 flex justify-between gap-5 ml-5 h-full">
           <div className="flex flex-1 gap-8 ml-5 h-full">
