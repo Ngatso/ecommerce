@@ -22,6 +22,7 @@ import Header from "./layout/Header";
 import { createServerClient } from "./services/db.server";
 import { createBrowserClient } from "@supabase/auth-helpers-remix";
 import { useEffect, useState } from "react";
+import Footer from "./layout/Footer";
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
   { rel: "stylesheet", href: stylesheet },
@@ -120,8 +121,8 @@ export default function App() {
       </head>
       <body>
         <Header user={user} supabase={supabase} />
-
         <Outlet context={{ supabase, session }} />
+        <Footer />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />

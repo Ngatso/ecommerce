@@ -21,7 +21,6 @@ export default function Login({ supabase, session }) {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
     });
-    console.log(data);
   };
   return (
     <div className="w-screen mt-28 flex justify-center items-center">

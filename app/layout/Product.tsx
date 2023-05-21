@@ -1,5 +1,4 @@
 import { Link } from "@remix-run/react";
-import ImageCarousal from "./component/ImageCarousal";
 export default function Product({ item }) {
   let {
     brand,
@@ -29,7 +28,6 @@ export default function Product({ item }) {
       </div>
       <div className="p-4">
         <h2 className="text-xl font-semibold mb-2">{title}</h2>
-        <p className="text-gray-600 mb-2">Brand: {brand}</p>
         <p className="text-gray-600 mb-2">Category: {category}</p>
         <p className="text-gray-600 mb-2">Rating: {rating}</p>
         <div className="flex items-center">

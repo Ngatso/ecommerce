@@ -1,5 +1,6 @@
 import { Link, useLoaderData } from "@remix-run/react";
 import { useState } from "react";
+import Cart from "../component/UI/Cart";
 
 export default function Header({ user, supabase }) {
   let error = null;
@@ -48,7 +49,7 @@ export default function Header({ user, supabase }) {
                   />
                 </button>
                 {userMenuOpen && (
-                  <div className="absolute top-10 z-50 my-4 w-56 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
+                  <div className="absolute top-10  z-20   my-4 w-56 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
                     <div className="py-3 px-4">
                       <span className="block text-sm font-semibold text-gray-900 dark:text-white">
                         {user?.username}
@@ -180,6 +181,7 @@ export default function Header({ user, supabase }) {
                 <path d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.17h0A122.18,122.18,0,0,0,381,102.39a121.43,121.43,0,0,0,67,20.14Z" />
               </svg>
             </a>
+            <Cart />
           </div>
         </div>
       </nav>
@@ -190,7 +192,7 @@ export default function Header({ user, supabase }) {
               <input
                 type="search"
                 id="search-dropdown"
-                className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-lg   border-l-1 md:border-l-6 border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-800 dark:border-l-gray-600  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-primary-500"
+                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg   border-l-1 md:border-l-6 border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-800 dark:border-l-gray-600  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-primary-500"
                 placeholder="Search anything..."
                 required
               />
@@ -252,7 +254,7 @@ export default function Header({ user, supabase }) {
         onMouseLeave={() => setMenu1Open(false)}
         className={`${
           !menu1Open && "hidden"
-        } dropdown absolute top-[100%] left-0 right-0 w-full bg-white py-2 shadow-lg z-10`}
+        } dropdown absolute top-[100%] left-0 right-0 w-full bg-white py-2 shadow-lg `}
       >
         <div className="p-3 flex justify-between gap-5 ml-5 h-full">
           <div className="flex flex-1 gap-8 ml-5 h-full">
@@ -294,7 +296,7 @@ export default function Header({ user, supabase }) {
         onMouseLeave={() => setMenu2Open(false)}
         className={`${
           !menu2Open && "hidden"
-        } overflow-hidden dropdown max-h-[300px] absolute top-[100%] left-0 right-0 w-full bg-white py-2 shadow-lg z-10`}
+        } overflow-hidden dropdown max-h-[300px] absolute top-[100%] left-0 right-0 w-full bg-white py-2 shadow-lg `}
       >
         <div className="p-3 flex justify-between gap-5 ml-5 h-full">
           <div className="flex flex-1 gap-8 ml-5 h-full">
