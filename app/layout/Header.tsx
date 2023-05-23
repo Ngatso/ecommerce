@@ -1,5 +1,5 @@
 import { Link, useLoaderData } from "@remix-run/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Cart from "../component/UI/Cart";
 
 export default function Header({ user, supabase }) {
@@ -7,6 +7,17 @@ export default function Header({ user, supabase }) {
   const [menu1Open, setMenu1Open] = useState(false);
   const [menu2Open, setMenu2Open] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [cart, setCart] = useState([]);
+  useEffect(() => {
+    let getCart = async () => {
+      let { data: profile, error } = await supabase
+        .from("profile")
+        .select("cart");
+      return profile;
+    };
+    console.log(getCart());
+  }, []);
+
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) {

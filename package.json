@@ -14,6 +14,7 @@
     "@remix-run/netlify": "^1.16.0",
     "@remix-run/node": "^1.16.0",
     "@remix-run/react": "^1.16.0",
+    "@shopify/hydrogen": "^2023.4.0",
     "@supabase/auth-helpers-remix": "^0.1.9",
     "@supabase/supabase-js": "^2.22.0",
     "bcrypt": "^5.1.0",

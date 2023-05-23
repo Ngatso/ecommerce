@@ -75,6 +75,11 @@ export default function Screen() {
           action: "/handle-supabase-auth",
         });
       }
+      if (event === "SIGNED_IN") {
+        // User logged in successfully, create user profile
+        // createUserProfile(session.user);
+        console.log("hi");
+      }
     });
 
     return () => {

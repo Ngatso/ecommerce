@@ -23,6 +23,7 @@ import { createServerClient } from "./services/db.server";
 import { createBrowserClient } from "@supabase/auth-helpers-remix";
 import { useEffect, useState } from "react";
 import Footer from "./layout/Footer";
+import { createUserProfile } from "./model/user";
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
   { rel: "stylesheet", href: stylesheet },
@@ -103,6 +104,11 @@ export default function App() {
           method: "post",
           action: "/handle-supabase-auth",
         });
+      }
+      if (event === "SIGNED_IN" && user) {
+        // User logged in successfully, create user profile
+
+        createUserProfile(user, supabase);
       }
     });
 

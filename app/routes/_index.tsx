@@ -39,34 +39,8 @@ export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
 };
 
 export default function Index() {
-  const { env, session, products } = useLoaderData<typeof loader>();
-  const refreshFetcher = useFetcher();
-  const [supabase] = useState(() =>
-    createBrowserClient(env.SUPABASE_URL, env.SUPABASE_ANON_KEY)
-  );
+  const { products } = useLoaderData<typeof loader>();
 
-  const serverAccessToken = session?.access_token;
-
-  useEffect(() => {
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
-      if (
-        session?.access_token !== serverAccessToken &&
-        refreshFetcher.state === "idle"
-      ) {
-        refreshFetcher.submit(null, {
-          method: "post",
-          action: "/handle-supabase-auth",
-        });
-      }
-    });
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [serverAccessToken, supabase, refreshFetcher]);
-  console.log(products);
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
       <Hero />
