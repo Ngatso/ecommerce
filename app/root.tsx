@@ -24,6 +24,7 @@ import { createBrowserClient } from "@supabase/auth-helpers-remix";
 import { useEffect, useState } from "react";
 import Footer from "./layout/Footer";
 import { createUserProfile } from "./model/user";
+import Sidebar from "./layout/Sidebar";
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
   { rel: "stylesheet", href: stylesheet },
@@ -128,6 +129,7 @@ export default function App() {
       <body style={{ fontFamily: "serif" }}>
         <Header user={user} supabase={supabase} />
         <Outlet context={{ supabase, session }} />
+        <Sidebar />
         <Footer />
         <ScrollRestoration />
         <Scripts />
