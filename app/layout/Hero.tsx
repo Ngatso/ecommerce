@@ -2,9 +2,9 @@ import { Link } from "@remix-run/react";
 
 export default function Hero() {
   return (
-    <section className="flex flex-col md:flex-row items-center justify-center">
+    <section className="flex flex-col  items-center justify-center">
       <div
-        className="relative flex flex-1 rounded  items-center justify-center flex-col p-3 h-full "
+        className="relative flex flex-col flex-1 rounded   items-center justify-center p-3 w-full "
         style={{
           height: "60vh",
         }}
@@ -42,15 +42,28 @@ export default function Hero() {
           Shop Summer Coat
         </Link>
       </div>
-      <div className="max-w-[500px] text-center">
-        An effort to connect you closer to Tibetan culture Ngatso comes in with
-        the sole aim of preserving and promoting the rich and unique Tibetan
-        cultural heritage. We provide platform for Tibetan manufacturers and
-        artist from all across the world to sell their products in United States
-        and Canada.
-        <div>
-          <img src="https://images.squarespace-cdn.com/content/v1/60de2756bdea384623d3b191/b6a6e606-7a74-44fb-8183-f1aad815a1fd/Untitled+design+%284%29.jpg?format=1500w" />
-        </div>
+      <div
+        className="max-w-[500px] text-center "
+        style={{
+          textAlign: "center",
+          whiteSpace: "pre-wrap",
+          lineHeight: 2,
+          fontFamily: "serif",
+        }}
+      >
+        <h2 className="font-bold mb-5 mt-2">
+          An effort to connect you closer to Tibetan culture
+        </h2>
+        Ngatso comes in with the sole aim of preserving and promoting the rich
+        and unique Tibetan cultural heritage. We provide platform for Tibetan
+        manufacturers and artist from all across the world to sell their
+        products in United States and Canada.
+      </div>
+      <div className="flex max-w-[685px]">
+        <img
+          className="flex-1"
+          src="https://images.squarespace-cdn.com/content/v1/60de2756bdea384623d3b191/b6a6e606-7a74-44fb-8183-f1aad815a1fd/Untitled+design+%284%29.jpg?format=1500w"
+        />
       </div>
     </section>
   );

@@ -125,7 +125,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body style={{ fontFamily: "serif" }}>
         <Header user={user} supabase={supabase} />
         <Outlet context={{ supabase, session }} />
         <Footer />
