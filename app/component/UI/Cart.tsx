@@ -24,8 +24,8 @@ const Cart = () => {
       >
         <svg
           className="icon icon--cart"
-          width="30"
-          height="30"
+          width="25"
+          height="25"
           viewBox="0 0 138 144"
         >
           <path
