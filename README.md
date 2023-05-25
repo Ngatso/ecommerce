@@ -31,6 +31,10 @@ netlify init
 
 ## Development
 
+```sh
+npm install
+```
+
 The Remix dev server starts your app in development mode, rebuilding assets on file changes. To start the Remix dev server:
 
 ```sh

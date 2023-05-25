@@ -23,7 +23,7 @@ export default function Login({ supabase, session }) {
     });
   };
   return (
-    <div className="w-screen mt-28 flex justify-center items-center">
+    <div className="w-screen mt-28 flex justify-center items-center mb-3">
       {session ? (
         <button onClick={handleLogout}>Logout</button>
       ) : (
@@ -68,44 +68,37 @@ export default function Login({ supabase, session }) {
             <div className="flex justify-between items-center gap-4 mt-3">
               <button
                 onClick={handleEmailLogin}
-                className="bg-gray-200 shadow bold p-2 hover:bg-gray-300"
+                className=" flex-1 bg-gray-200 shadow text-sm bold p-2 hover:bg-gray-300 rounded"
               >
                 LOGIN
               </button>
-              <Link
-                to="/auth/register"
-                className="text-gray-400 hover:text-gray-500"
-              >
-                CREATE ACCOUNT
-              </Link>
             </div>
-            <center>OR</center>
-            <div className="px-6 sm:px-0 max-w-sm ">
+            <center className="text-sm font-light text-gray-400">OR</center>
+            <div className="px-6 sm:px-0 w-full ">
               <button
-                type="button"
                 onClick={signInWithGoogle}
-                className="text-white w-full  bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center justify-between dark:focus:ring-[#4285F4]/55 mr-2 mb-2"
+                type="button"
+                className="px-4 py-2 border w-full flex gap-2 border-slate-200 rounded-lg text-slate-700 hover:border-slate-400 hover:text-slate-900 hover:shadow transition duration-150"
               >
-                <svg
-                  className="mr-2 -ml-1 w-4 h-4"
-                  aria-hidden="true"
-                  focusable="false"
-                  data-prefix="fab"
-                  data-icon="google"
-                  role="img"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 488 512"
-                >
-                  <path
-                    fill="currentColor"
-                    d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"
-                  ></path>
-                </svg>
-                Log in with Google
-                <div></div>
+                <img
+                  className="w-6 h-6"
+                  src="https://www.svgrepo.com/show/475656/google-color.svg"
+                  loading="lazy"
+                  alt="google logo"
+                />
+                <span>Login with Google</span>
               </button>
             </div>
           </div>
+          <span>
+            Don't have an account ?
+            <Link
+              to="/auth/register"
+              className="text-blue-400 hover:text-blue-500 ml-2"
+            >
+              Sign up
+            </Link>
+          </span>
         </div>
       )}
     </div>

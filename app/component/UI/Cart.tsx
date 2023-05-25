@@ -44,13 +44,13 @@ const Cart = () => {
             d="M95.7861 129C95.7861 137.268 102.518 144 110.786 144C119.054 144 125.786 137.268 125.786 129C125.786 120.732 119.054 114 110.786 114C102.518 114 95.7861 120.732 95.7861 129ZM101.787 129C101.787 124.039 105.824 120 110.786 120C115.749 120 119.786 124.038 119.786 129C119.786 133.962 115.749 138 110.786 138C105.824 138 101.787 133.962 101.787 129Z"
           ></path>
         </svg>
-        {items.length > 0 && (
+        {/* {items.length > 0 && (
           <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
             {items.length}
           </span>
-        )}
+        )} */}
       </button>
-      {isOpen && (
+      {/* {isOpen && (
         <div className="absolute right-0 mt-2 w-64 bg-white p-4 shadow rounded">
           {items.length > 0 ? (
             <React.Fragment>
@@ -76,7 +76,7 @@ const Cart = () => {
             <p className="text-center">Your cart is empty.</p>
           )}
         </div>
-      )}
+      )} */}
     </div>
   );
 };

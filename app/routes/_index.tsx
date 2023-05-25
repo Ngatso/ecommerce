@@ -23,14 +23,11 @@ export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
 
   // in order for the set-cookie header to be set,
   // headers must be returned as part of the loader response
-  let res = await fetch("https://dummyjson.com/products");
-  let fakeProduct = await res.json();
 
   return json(
     {
       env,
       session,
-      products: fakeProduct,
     },
     {
       headers: response.headers,
@@ -39,12 +36,9 @@ export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
 };
 
 export default function Index() {
-  const { products } = useLoaderData<typeof loader>();
-
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
       <Hero />
-      <Products data={products} />
     </div>
   );
 }

@@ -70,7 +70,7 @@ export default function Header({ user, supabase }) {
               </li>
             </ul>
           </div>
-          <div className="flex items-center flex-1 justify-center">
+          <div className="flex items-center flex-1 justify-center ml-16 md:ml-0">
             <Link to="/">
               <img
                 src="https://images.squarespace-cdn.com/content/v1/60de2756bdea384623d3b191/025cc96d-48ff-459f-8c35-a5b4a0d82bc2/BlackLogo.png?format=1500w"
@@ -81,7 +81,7 @@ export default function Header({ user, supabase }) {
             </Link>
           </div>
         </div>
-        <div className="md:hidden flex justify-center items-center mr-10">
+        <div className="md:hidden flex justify-center items-center ">
           {" "}
           <button
             data-drawer-target="logo-sidebar"
@@ -99,8 +99,8 @@ export default function Header({ user, supabase }) {
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                clip-rule="evenodd"
-                fill-rule="evenodd"
+                clipRule="evenodd"
+                fillRule="evenodd"
                 d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
               ></path>
             </svg>
@@ -232,26 +232,26 @@ export default function Header({ user, supabase }) {
       >
         <div className="p-3 flex justify-between gap-5 ml-5 h-full">
           <div className="flex flex-1 gap-8 ml-5 h-full">
-            <ul className="flex flex-col gap-4 w-fit">
+            <ul className="flex flex-col gap-4 w-fit text-base">
               <h2 className="text-xl  font-extrabold">Kids</h2>
               <li>Storybook</li>
               <li>Doll Accessories</li>
               <li>Dolls</li>
             </ul>
-            <ul className="flex ml-3 flex-col gap-4">
+            <ul className="flex ml-3 flex-col gap-4 text-base">
               <h2 className="text-xl font-extrabold">Art Work</h2>
               <li>Paper Sculpture</li>
               <li>Print</li>
               <li>Wall Hanging</li>
             </ul>
-            <ul className="flex ml-3 flex-col gap-4">
+            <ul className="flex ml-3 flex-col gap-4 text-base">
               <h2 className="text-xl font-extrabold">Clothing</h2>
               <li>T-shirts</li>
               <li>Jackets</li>
               <li>Hat</li>
               <li>Accessories</li>
             </ul>
-            <ul className="flex ml-3 flex-col gap-4">
+            <ul className="flex ml-3 flex-col gap-4 text-base">
               <h2 className="text-xl font-extrabold">Brand</h2>
               <li>Men-Tsee-Khang</li>
               <li>Tenzin Quilling</li>
@@ -275,7 +275,7 @@ export default function Header({ user, supabase }) {
       >
         <div className="p-3 flex justify-between gap-5 ml-5 h-full">
           <div className="flex flex-1 gap-8 ml-5 h-full">
-            <ul className="flex flex-col gap-4 w-fit">
+            <ul className="flex flex-col gap-4 w-fit text-base">
               <h2 className="text-xl  font-extrabold">New Delhi</h2>
               <li>Ngatso Fest</li>
               <li>Events</li>
@@ -283,12 +283,12 @@ export default function Header({ user, supabase }) {
               <li>Services</li>
               <li>Eats</li>
             </ul>
-            <ul className="flex ml-3 flex-col gap-4">
+            <ul className="flex ml-3 flex-col gap-4 text-base">
               <h2 className="text-xl font-extrabold">Dharamsala</h2>
               <li>Events</li>
               <li>Monasteries</li>
             </ul>
-            <ul className="flex ml-3 flex-col gap-4">
+            <ul className="flex ml-3 flex-col gap-4 text-base">
               <h2 className="text-xl font-extrabold">Coming soon</h2>
             </ul>
           </div>
