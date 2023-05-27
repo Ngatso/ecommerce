@@ -1,14 +1,22 @@
 @font-face {
-  font-family: "caslon";
-  src: url("/font/caslon.ttf") format("ttf");
+  font-family: "minion";
+  src: url("/font/minion.woff") format("woff");
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
-  font-family: "minion";
-  src: url("/font/minion.ttf") format("ttf");
+  font-family: "caslon";
+  src: url("/font/caslon.woff") format("woff");
   font-style: normal;
   font-display: swap;
+}
+a {
+  font-family: "caslon";
+  line-height: normal;
+  letter-spacing: 3.6;
+  text-align: center;
+  font-size: 18px;
 }
 body {
   font-family: "caslon";
