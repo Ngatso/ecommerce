@@ -46,7 +46,7 @@ export default function Hero() {
           </Link>
         </div>
       </div>
-      <div className="max-w-[500px] text-center ">
+      <div className=" text-center ">
         <h2
           className="font-semibold mb-10 text-center mt-4 font-caslon"
           style={{
@@ -58,16 +58,23 @@ export default function Hero() {
         >
           An effort to connect you closer to Tibetan culture
         </h2>
-        <div className="text-center text-l font-minion">
+        <div
+          className="text-center text-l font-minion max-w-[610px]"
+          style={{
+            lineHeight: "32px",
+            fontSize: 18,
+            letterSpacing: "normal",
+          }}
+        >
           Ngatso comes in with the sole aim of preserving and promoting the rich
           and unique Tibetan cultural heritage. We provide platform for Tibetan
           manufacturers and artist from all across the world to sell their
           products in United States and Canada.
         </div>
       </div>
-      <div className="flex max-w-[685px]">
+      <div className="flex">
         <img
-          className="flex-1"
+          style={{ lineHeight: 32, aspectRatio: "1:10" }}
           src="https://images.squarespace-cdn.com/content/v1/60de2756bdea384623d3b191/b6a6e606-7a74-44fb-8183-f1aad815a1fd/Untitled+design+%284%29.jpg?format=1500w"
         />
       </div>
