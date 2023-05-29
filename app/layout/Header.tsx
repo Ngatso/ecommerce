@@ -35,9 +35,9 @@ export default function Header({ user, supabase }) {
       className=" shadow-md sticky top-0 transition-all z-10 bg-white border-y border-gray-200 dark:bg-gray-700 dark:border-gray-600"
       style={{ height: 110, fontSize: 24 }}
     >
-      <nav className="flex justify-between h-full gap-10">
-        <div className="flex py-4 px-4 justify-between  flex-1">
-          <div className="flex justify-center items-center md:hidden">
+      <nav className="relative flex justify-between h-full gap-10">
+        <div className="flex py-4 px-4 justify-start  flex-1">
+          <div className="flex justify-start items-center md:hidden">
             <Cart />
           </div>
           <div className="hidden md:flex items-center flex-1">
@@ -70,7 +70,7 @@ export default function Header({ user, supabase }) {
               </li>
             </ul>
           </div>
-          <div className="flex items-center flex-1 justify-center ml-16 md:ml-0">
+          <div className="absolute left-[50%] translate-x-[-50%]">
             <Link to="/">
               <img
                 src="https://images.squarespace-cdn.com/content/v1/60de2756bdea384623d3b191/025cc96d-48ff-459f-8c35-a5b4a0d82bc2/BlackLogo.png?format=1500w"
@@ -79,6 +79,121 @@ export default function Header({ user, supabase }) {
                 alt="Ngatso Logo"
               />
             </Link>
+          </div>
+          <div className="hidden md:flex items-center">
+            <div className="flex flex-wrap justify-between items-center px-4 md:px-6 py-2.5">
+              <div className="flex items-center justify-around gap-4  ">
+                <div className="flex opacity-70 hover:opacity-100">
+                  <img
+                    src="https://static1.squarespace.com/static/60de2756bdea384623d3b191/t/615d072ac39a1012f5cbde1e/1636730283619/output-onlinepngtools-3.png"
+                    style={{ width: 22, objectFit: "contain", marginRight: 10 }}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Search"
+                    className="border-0 outline-none focus:outline-none focus:border-none"
+                  />
+                </div>
+                <div className="flex gap-5 items-center">
+                  {user ? (
+                    <>
+                      <button
+                        type="button"
+                        onClick={toggleUserMenu}
+                        className="relative flex mx-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                      >
+                        <span className="sr-only">Open user menu</span>
+                        <img
+                          className="w-8 h-8 rounded-full"
+                          src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                          alt="user photo"
+                        />
+                      </button>
+                      {userMenuOpen && (
+                        <div className="absolute top-10  z-20   my-4 w-56 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
+                          <div className="py-3 px-4">
+                            <span className="block text-sm font-semibold text-gray-900 dark:text-white">
+                              {user?.username}
+                            </span>
+                            <span className="block text-sm font-light text-gray-500 truncate dark:text-gray-400">
+                              {user?.email}
+                            </span>
+                          </div>
+                          <ul
+                            className="py-1 font-light text-gray-500 dark:text-gray-400"
+                            aria-labelledby="dropdown"
+                          >
+                            <li>
+                              <a
+                                href="#"
+                                className="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"
+                              >
+                                My profile
+                              </a>
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                className="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"
+                              >
+                                Account settings
+                              </a>
+                            </li>
+                          </ul>
+                          <ul
+                            className="py-1 font-light text-gray-500 dark:text-gray-400"
+                            aria-labelledby="dropdown"
+                          >
+                            <li>
+                              <a
+                                href="#"
+                                className="flex items-center py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                              >
+                                <svg
+                                  className="mr-2 w-5 h-5 text-gray-400"
+                                  fill="currentColor"
+                                  viewBox="0 0 20 20"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    fillRule="evenodd"
+                                    d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                                    clipRule="evenodd"
+                                  ></path>
+                                </svg>{" "}
+                                My likes
+                              </a>
+                            </li>
+                          </ul>
+                          <ul
+                            className="py-1 font-light text-gray-500 dark:text-gray-400"
+                            aria-labelledby="dropdown"
+                          >
+                            <li>
+                              <div
+                                onClick={handleLogout}
+                                className="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                              >
+                                LOGOUT
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <Link
+                      to="/auth/login"
+                      className="text-lg font-medium text-primary-600 dark:text-primary-500"
+                    >
+                      Login
+                    </Link>
+                  )}
+
+                  <Cart />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div className="md:hidden flex justify-center items-center ">
@@ -105,121 +220,6 @@ export default function Header({ user, supabase }) {
               ></path>
             </svg>
           </button>
-        </div>
-        <div className="hidden md:flex items-center mr-10">
-          <div className="flex flex-wrap justify-between items-center px-4 md:px-6 py-2.5">
-            <div className="flex items-center justify-around gap-4  ">
-              <div className="flex opacity-70 hover:opacity-100">
-                <img
-                  src="https://static1.squarespace.com/static/60de2756bdea384623d3b191/t/615d072ac39a1012f5cbde1e/1636730283619/output-onlinepngtools-3.png"
-                  style={{ width: 22, objectFit: "contain" }}
-                />
-                <input
-                  type="text"
-                  placeholder="Search"
-                  className="border-0 outline-none"
-                />
-              </div>
-              <div className="flex gap-5 items-center">
-                {user ? (
-                  <>
-                    <button
-                      type="button"
-                      onClick={toggleUserMenu}
-                      className="relative flex mx-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-                    >
-                      <span className="sr-only">Open user menu</span>
-                      <img
-                        className="w-8 h-8 rounded-full"
-                        src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                        alt="user photo"
-                      />
-                    </button>
-                    {userMenuOpen && (
-                      <div className="absolute top-10  z-20   my-4 w-56 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
-                        <div className="py-3 px-4">
-                          <span className="block text-sm font-semibold text-gray-900 dark:text-white">
-                            {user?.username}
-                          </span>
-                          <span className="block text-sm font-light text-gray-500 truncate dark:text-gray-400">
-                            {user?.email}
-                          </span>
-                        </div>
-                        <ul
-                          className="py-1 font-light text-gray-500 dark:text-gray-400"
-                          aria-labelledby="dropdown"
-                        >
-                          <li>
-                            <a
-                              href="#"
-                              className="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"
-                            >
-                              My profile
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="#"
-                              className="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"
-                            >
-                              Account settings
-                            </a>
-                          </li>
-                        </ul>
-                        <ul
-                          className="py-1 font-light text-gray-500 dark:text-gray-400"
-                          aria-labelledby="dropdown"
-                        >
-                          <li>
-                            <a
-                              href="#"
-                              className="flex items-center py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                            >
-                              <svg
-                                className="mr-2 w-5 h-5 text-gray-400"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                                  clipRule="evenodd"
-                                ></path>
-                              </svg>{" "}
-                              My likes
-                            </a>
-                          </li>
-                        </ul>
-                        <ul
-                          className="py-1 font-light text-gray-500 dark:text-gray-400"
-                          aria-labelledby="dropdown"
-                        >
-                          <li>
-                            <div
-                              onClick={handleLogout}
-                              className="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                            >
-                              LOGOUT
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  <Link
-                    to="/auth/login"
-                    className="text-lg font-medium text-primary-600 dark:text-primary-500"
-                  >
-                    Login
-                  </Link>
-                )}
-
-                <Cart />
-              </div>
-            </div>
-          </div>
         </div>
       </nav>
 
