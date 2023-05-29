@@ -289,6 +289,11 @@ export default function Header({ user, supabase }) {
               <li>Monasteries</li>
             </ul>
             <ul className="flex ml-3 flex-col gap-4 text-base">
+              <h2 className="text-xl font-extrabold">Social</h2>
+              <li>Youtube</li>
+              <li>Spotify</li>
+            </ul>
+            <ul className="flex ml-3 flex-col gap-4 text-base">
               <h2 className="text-xl font-extrabold">Coming soon</h2>
             </ul>
           </div>
