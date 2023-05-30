@@ -1,0 +1,78 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model profile {
+  id         String    @id @unique @default(uuid())
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  username   String?   @unique
+  email      String?   @unique
+  mobile     String?
+  avatar     String?
+  address    String?
+}
+
+model owner {
+  id            String   @id @unique @default(uuid())
+  name          String
+  qualification String?
+  description   String?
+  image         String[]
+  contact       contact  @relation(fields: [contactId], references: [id])
+  contactId     Int
+}
+
+model contact {
+  id          Int          @id @default(autoincrement())
+  name        String
+  mobile      String?
+  email       String?
+  website     String?
+  openingTime String? // Add openingTime field
+  closingTime String?
+  event       event[]
+  monastery   monastery[]
+  owner       owner[]
+  restaurant  restaurant[]
+}
+
+model event {
+  id          String    @id @unique @default(uuid())
+  title       String
+  description String?
+  poster      String[]
+  venue       String?
+  date        DateTime?
+  city        String?
+  registerUrl String?
+  contact     contact   @relation(fields: [contactId], references: [id])
+  contactId   Int
+}
+
+model monastery {
+  id        String   @id @unique @default(uuid())
+  name      String
+  location  String?
+  contant   contact  @relation(fields: [contactId], references: [id])
+  contactId Int
+  city      String?
+  image     String[]
+}
+
+model restaurant {
+  id        String   @id @unique @default(uuid())
+  name      String
+  photos    String[]
+  location  String?
+  city      String?
+  menu      String
+  contact   contact  @relation(fields: [contactId], references: [id])
+  contactId Int
+}

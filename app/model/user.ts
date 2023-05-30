@@ -1,22 +1,22 @@
-export async function createUserProfile(user, supabase) {
-  try {
-    // Insert the user profile data into the database
-    const { data, error } = await supabase.from("profile").insert([
-      {
-        id: user.id,
+import { db } from "~/services/db.server";
+
+export async function checkUser(user) {
+  const profile = await db.profile.findUnique({
+    where: {
+      email: user.email,
+    },
+  });
+
+  if (profile) {
+    return profile;
+  } else {
+    let newUser = await db.profile.create({
+      data: {
         username: user.user_metadata.name,
         email: user.email,
-        // Additional profile data can be added here
-        cart: [],
+        avatar: user.user_metadata.picture,
       },
-    ]);
-
-    if (error) {
-      throw new Error(error.message);
-    }
-
-    console.log("User profile created:", data);
-  } catch (error) {
-    console.error("Error creating user profile:", error);
+    });
+    return newUser;
   }
 }

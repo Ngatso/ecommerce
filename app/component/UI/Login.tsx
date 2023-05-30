@@ -12,10 +12,6 @@ export default function Login({ supabase, session }) {
   };
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
-
-    if (error) {
-      console.log(error);
-    }
   };
   const signInWithGoogle = async () => {
     const { data, error } = await supabase.auth.signInWithOAuth({

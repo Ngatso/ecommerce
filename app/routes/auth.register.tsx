@@ -9,7 +9,7 @@ import {
 import { Link, useFetcher } from "@remix-run/react";
 import { createBrowserClient } from "@supabase/auth-helpers-remix";
 import Spinner from "~/component/UI/Spinner";
-import { createServerClient } from "~/services/db.server";
+import { createServerClient } from "~/services/auth.server";
 
 export async function loader<LoaderFunction>({ request }: LoaderArgs) {
   const response = new Response();

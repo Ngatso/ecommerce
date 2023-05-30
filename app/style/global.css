@@ -11,6 +11,10 @@
   font-style: normal;
   font-display: swap;
 }
+ul > a {
+  font-family: "caslon";
+  text-align: start;
+}
 a {
   font-family: "caslon";
   line-height: normal;

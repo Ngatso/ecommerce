@@ -19,12 +19,12 @@ import {
 import stylesheet from "~/style/tailwind.css";
 import globalsheet from "~/style/global.css";
 import Header from "./layout/Header";
-import { createServerClient } from "./services/db.server";
+import { createServerClient } from "./services/auth.server";
 import { createBrowserClient } from "@supabase/auth-helpers-remix";
 import { useEffect, useState } from "react";
 import Footer from "./layout/Footer";
-import { createUserProfile } from "./model/user";
 import Sidebar from "./layout/Sidebar";
+import { checkUser } from "./model/user";
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
   { rel: "stylesheet", href: stylesheet },
@@ -61,19 +61,18 @@ export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
   const supabase = createServerClient({ request, response });
 
   const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  const {
     data: { session },
   } = await supabase.auth.getSession();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   // in order for the set-cookie header to be set,
   // headers must be returned as part of the loader response
   return json(
     {
       env,
-      user,
+      user: user ? await checkUser(user) : null,
       session,
     },
     {
@@ -105,11 +104,6 @@ export default function App() {
           method: "post",
           action: "/handle-supabase-auth",
         });
-      }
-      if (event === "SIGNED_IN" && user) {
-        // User logged in successfully, create user profile
-
-        createUserProfile(user, supabase);
       }
     });
 

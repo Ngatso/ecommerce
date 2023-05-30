@@ -5,18 +5,8 @@ import {
   json,
   redirect,
 } from "@remix-run/node";
-import {
-  Form,
-  Link,
-  useActionData,
-  useAsyncValue,
-  useFetcher,
-  useLoaderData,
-  useNavigate,
-  useNavigation,
-  useOutletContext,
-} from "@remix-run/react";
-import { createServerClient } from "~/services/db.server";
+import { useFetcher, useLoaderData } from "@remix-run/react";
+import { createServerClient } from "~/services/auth.server";
 import { useState, useEffect } from "react";
 import Login from "~/component/UI/Login";
 import { createBrowserClient } from "@supabase/auth-helpers-remix";
@@ -70,15 +60,15 @@ export default function Screen() {
       ) {
         // server and client are out of sync.
         // Remix recalls active loaders after actions complete
-        refreshFetcher.submit(null, {
-          method: "post",
-          action: "/handle-supabase-auth",
-        });
-      }
-      if (event === "SIGNED_IN") {
-        // User logged in successfully, create user profile
-        // createUserProfile(session.user);
-        console.log("hi");
+        refreshFetcher.submit(
+          {
+            user: JSON.stringify(session?.user),
+          },
+          {
+            method: "post",
+            action: "/handle-supabase-auth",
+          }
+        );
       }
     });
 

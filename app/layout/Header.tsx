@@ -8,21 +8,10 @@ export default function Header({ user, supabase }) {
   const [menu2Open, setMenu2Open] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [cart, setCart] = useState([]);
-  useEffect(() => {
-    let getCart = async () => {
-      let { data: profile, error } = await supabase
-        .from("profile")
-        .select("cart");
-      return profile;
-    };
-    console.log(getCart());
-  }, []);
+  useEffect(() => {}, []);
 
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
-    if (error) {
-      console.log(error);
-    }
   };
   const toggleUserMenu = () => {
     setUserMenuOpen((p) => !p);
@@ -105,7 +94,7 @@ export default function Header({ user, supabase }) {
                         <span className="sr-only">Open user menu</span>
                         <img
                           className="w-8 h-8 rounded-full"
-                          src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                          src={user?.avatar}
                           alt="user photo"
                         />
                       </button>
@@ -119,52 +108,7 @@ export default function Header({ user, supabase }) {
                               {user?.email}
                             </span>
                           </div>
-                          <ul
-                            className="py-1 font-light text-gray-500 dark:text-gray-400"
-                            aria-labelledby="dropdown"
-                          >
-                            <li>
-                              <a
-                                href="#"
-                                className="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"
-                              >
-                                My profile
-                              </a>
-                            </li>
-                            <li>
-                              <a
-                                href="#"
-                                className="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"
-                              >
-                                Account settings
-                              </a>
-                            </li>
-                          </ul>
-                          <ul
-                            className="py-1 font-light text-gray-500 dark:text-gray-400"
-                            aria-labelledby="dropdown"
-                          >
-                            <li>
-                              <a
-                                href="#"
-                                className="flex items-center py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                              >
-                                <svg
-                                  className="mr-2 w-5 h-5 text-gray-400"
-                                  fill="currentColor"
-                                  viewBox="0 0 20 20"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <path
-                                    fillRule="evenodd"
-                                    d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                                    clipRule="evenodd"
-                                  ></path>
-                                </svg>{" "}
-                                My likes
-                              </a>
-                            </li>
-                          </ul>
+
                           <ul
                             className="py-1 font-light text-gray-500 dark:text-gray-400"
                             aria-labelledby="dropdown"
@@ -172,7 +116,7 @@ export default function Header({ user, supabase }) {
                             <li>
                               <div
                                 onClick={handleLogout}
-                                className="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                className="block cursor-pointer py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                               >
                                 LOGOUT
                               </div>
@@ -277,11 +221,9 @@ export default function Header({ user, supabase }) {
           <div className="flex flex-1 gap-8 ml-5 h-full">
             <ul className="flex flex-col gap-4 w-fit text-base">
               <h2 className="text-xl  font-extrabold">New Delhi</h2>
-              <li>Ngatso Fest</li>
-              <li>Events</li>
-              <li>Monasteries</li>
-              <li>Services</li>
-              <li>Eats</li>
+              <Link to={"/events"}>Events</Link>
+              <Link to={"/monastery/delhi"}>Monasteries</Link>
+              <Link to={"/restaurant/delhi"}>Eats</Link>
             </ul>
             <ul className="flex ml-3 flex-col gap-4 text-base">
               <h2 className="text-xl font-extrabold">Dharamsala</h2>
