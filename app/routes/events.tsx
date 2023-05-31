@@ -1,5 +1,5 @@
 import { LoaderFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import { getEvents } from "~/model/event";
 export const loader: LoaderFunction = async ({ request }) => {
   let events = await getEvents();
@@ -11,6 +11,13 @@ export default function Events() {
   return (
     <section>
       <h1 className="text-3xl font-bold text-center my-3"> Events</h1>
+      <center>
+        Click{" "}
+        <Link to="/events/form" prefetch="intent">
+          -here-
+        </Link>
+        to feature your event for free.
+      </center>
       <div className="flex flex-col gap-3 justify-center max-w-5xl mx-auto">
         {events.map((event) => (
           <Event event={event} key={event.id} />
