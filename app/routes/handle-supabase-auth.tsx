@@ -1,3 +1,5 @@
 import { ActionArgs, ActionFunction } from "@remix-run/node";
 
-export const action: ActionFunction = async ({ request }: ActionArgs) => {};
+export const action: ActionFunction = async ({ request }: ActionArgs) => {
+  return null;
+};
