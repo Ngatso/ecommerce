@@ -7,6 +7,8 @@ import {
 } from "@remix-run/node";
 import { Form } from "@remix-run/react";
 import { useRef } from "react";
+import { sendMail } from "~/services/sendmail.server";
+import { useActionData } from "@remix-run/react";
 export const action: ActionFunction = async ({ request }) => {
   const uploadHandler = unstable_composeUploadHandlers(
     unstable_createFileUploadHandler({
@@ -20,14 +22,23 @@ export const action: ActionFunction = async ({ request }) => {
     request,
     uploadHandler // <-- we'll look at this deeper next
   );
-  const values = Object.fromEntries(formData);
-  console.log(values);
-  return "ok";
+  const { fname, lname, email, organisation, venue, date } =
+    Object.fromEntries(formData);
+  const emailBody = `<p> first name: ${fname}, last name: ${lname} , email: ${email} ,organisation:${organisation}, venue: ${venue} , date:${date}</p>`;
+  let subject = "Request to add event ";
+  try {
+    sendMail(subject, emailBody);
+    return {
+      message: "email successfully sent. organiser will contact u soon",
+    };
+  } catch (e) {
+    return { message: "error sending mail" };
+  }
 };
 
 export default function AddEvent() {
   const imageRef = useRef<HTMLImageElement>(null);
-
+  const response = useActionData();
   function handleImage(evt) {
     var tgt = evt.target || window.event.srcElement,
       files = tgt.files;
@@ -68,7 +79,7 @@ export default function AddEvent() {
                 </label>
                 <input
                   type="text"
-                  name="first-name"
+                  name="fname"
                   id="first-name"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="John"
@@ -84,7 +95,7 @@ export default function AddEvent() {
                 </label>
                 <input
                   type="text"
-                  name="last-name"
+                  name="lname"
                   id="last-name"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Doe"
@@ -248,6 +259,7 @@ export default function AddEvent() {
               </button>
             </div>
           </Form>
+          {response?.message && <div>{response.message}</div>}
         </div>
       </div>
     </center>
