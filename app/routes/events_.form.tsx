@@ -5,10 +5,12 @@ import {
   unstable_createMemoryUploadHandler,
   unstable_parseMultipartFormData,
 } from "@remix-run/node";
-import { Form } from "@remix-run/react";
-import { useRef } from "react";
+import { Form, useNavigation, useOutletContext } from "@remix-run/react";
+import { useRef ,useState} from "react";
 import { sendMail } from "~/services/sendmail.server";
 import { useActionData } from "@remix-run/react";
+import { createSupabaseClient } from "~/services/supabase.server";
+import { v4 as uuidv4 } from "uuid";
 export const action: ActionFunction = async ({ request }) => {
   const uploadHandler = unstable_composeUploadHandlers(
     unstable_createFileUploadHandler({
@@ -22,10 +24,12 @@ export const action: ActionFunction = async ({ request }) => {
     request,
     uploadHandler // <-- we'll look at this deeper next
   );
-  const { fname, lname, email, organisation, venue, date } =
+  const { fname, lname, email, organisation, venue, date, imageUrl } =
     Object.fromEntries(formData);
-  const emailBody = `<p> first name: ${fname}, last name: ${lname} , email: ${email} ,organisation:${organisation}, venue: ${venue} , date:${date}</p>`;
-  let subject = "Request to add event ";
+  const emailBody = `<p> first name: ${fname}, last name: ${lname} , email: ${email} ,organisation:${organisation}, venue: ${venue} , date:${date}
+  with poster as</p> <img src='${imageUrl}' alt='posterImage'/>
+  `;
+  let subject='event post request'
   try {
     sendMail(subject, emailBody);
     return {
@@ -39,17 +43,22 @@ export const action: ActionFunction = async ({ request }) => {
 export default function AddEvent() {
   const imageRef = useRef<HTMLImageElement>(null);
   const response = useActionData();
-  function handleImage(evt) {
-    var tgt = evt.target || window.event.srcElement,
-      files = tgt.files;
-    if (FileReader && files && files.length) {
-      var fr = new FileReader();
-      fr.onload = function () {
-        imageRef.current.src = fr.result;
-      };
-      fr.readAsDataURL(files[0]);
-    } else {
-      console.log("error");
+  const navigation = useNavigation();
+  const { supabase } = useOutletContext();
+  const [imageUrl, setImageUrl] = useState('');
+  async function handleImage(e) {
+    let file = e.target.files[0];
+    const { data, error } = await supabase.storage
+      .from("image")
+      .upload(uuidv4(), file);
+    if (data) {
+      let filename = data.path;
+      let fileUrl = `https://fqudiggsyyiruawohnij.supabase.co/storage/v1/object/public/image/${filename}`;
+      setImageUrl(fileUrl);
+
+    }
+    if (error) {
+      console.log(error)
     }
   }
 
@@ -215,17 +224,18 @@ export default function AddEvent() {
                   <img
                     className="mb-4 w-20 h-20 rounded-full sm:mr-4 sm:mb-0"
                     ref={imageRef}
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAt4SmGpU5ufhcfNM9PoeFuV8A_6L94hvgqwrscfijbQ&usqp=CAU&ec=48600112"
+                    src={imageUrl}
                     alt="poster"
                   />
                   <div className="w-full">
+                    <input hidden value={imageUrl} name='imageUrl' readOnly/>
                     <input
                       className="w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                       aria-describedby="file_input_help"
                       id="file"
                       type="file"
                       name="file"
-                      onChange={handleImage}
+                      onChange={(e) => handleImage(e)}
                     />
                     <p
                       className="mt-1 text-xs font-normal text-gray-500 dark:text-gray-300"
@@ -255,7 +265,7 @@ export default function AddEvent() {
                     clipRule="evenodd"
                   ></path>
                 </svg>
-                Submit
+                {navigation.formData?.get("fname") ? "submiting" : "Submit"}
               </button>
             </div>
           </Form>

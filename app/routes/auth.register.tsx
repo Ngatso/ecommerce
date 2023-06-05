@@ -9,11 +9,11 @@ import {
 import { Link, useFetcher } from "@remix-run/react";
 import { createBrowserClient } from "@supabase/auth-helpers-remix";
 import Spinner from "~/component/UI/Spinner";
-import { createServerClient } from "~/services/auth.server";
+import { createSupabaseClient } from "~/services/supabase.server";
 
 export async function loader<LoaderFunction>({ request }: LoaderArgs) {
   const response = new Response();
-  const supabase = createServerClient({ request, response });
+  const supabase = createSupabaseClient({ request, response });
   const {
     data: { session },
   } = await supabase.auth.getSession();

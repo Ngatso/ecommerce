@@ -19,7 +19,7 @@ import {
 import stylesheet from "~/style/tailwind.css";
 import globalsheet from "~/style/global.css";
 import Header from "./layout/Header";
-import { createServerClient } from "./services/auth.server";
+import { createSupabaseClient } from "./services/supabase.server";
 import { createBrowserClient } from "@supabase/auth-helpers-remix";
 import { useEffect, useState } from "react";
 import Footer from "./layout/Footer";
@@ -58,7 +58,7 @@ export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
   // This is used to make sure the session is available immediately upon rendering
   const response = new Response();
 
-  const supabase = createServerClient({ request, response });
+  const supabase = createSupabaseClient({ request, response });
 
   const {
     data: { session },

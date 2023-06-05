@@ -6,7 +6,7 @@ import {
   redirect,
 } from "@remix-run/node";
 import { useFetcher, useLoaderData } from "@remix-run/react";
-import { createServerClient } from "~/services/auth.server";
+import { createSupabaseClient } from "~/services/supabase.server";
 import { useState, useEffect } from "react";
 import Login from "~/component/UI/Login";
 import { createBrowserClient } from "@supabase/auth-helpers-remix";
@@ -24,7 +24,7 @@ export const loader = async ({ request }: LoaderArgs) => {
   // This is used to make sure the session is available immediately upon rendering
   const response = new Response();
 
-  const supabase = createServerClient({ request, response });
+  const supabase = createSupabaseClient({ request, response });
 
   const {
     data: { session },

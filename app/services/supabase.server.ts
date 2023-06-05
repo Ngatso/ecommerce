@@ -1,6 +1,6 @@
 import { createServerClient as _createServerClient } from "@supabase/auth-helpers-remix";
 
-export const createServerClient = ({
+export const createSupabaseClient = ({
   request,
   response,
 }: {
@@ -12,3 +12,5 @@ export const createServerClient = ({
     process.env.SUPABASE_ANON_KEY!,
     { request, response }
   );
+
+  
