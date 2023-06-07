@@ -17,6 +17,7 @@ model profile {
   mobile     String?
   avatar     String?
   address    String?
+  admin      Boolean?
 }
 
 model owner {
@@ -25,8 +26,8 @@ model owner {
   qualification String?
   description   String?
   image         String[]
-  contact       contact  @relation(fields: [contactId], references: [id])
-  contactId     Int
+  contact       contact?  @relation(fields: [contactId], references: [id])
+  contactId     Int?
 }
 
 model contact {
@@ -52,16 +53,16 @@ model event {
   date        DateTime?
   city        String?
   registerUrl String?
-  contact     contact   @relation(fields: [contactId], references: [id])
-  contactId   Int
+  contact     contact?   @relation(fields: [contactId], references: [id])
+  contactId   Int?
 }
 
 model monastery {
   id        String   @id @unique @default(uuid())
   name      String
   location  String?
-  contant   contact  @relation(fields: [contactId], references: [id])
-  contactId Int
+  contant   contact?  @relation(fields: [contactId], references: [id])
+  contactId Int?
   city      String?
   image     String[]
 }
@@ -73,6 +74,6 @@ model restaurant {
   location  String?
   city      String?
   menu      String
-  contact   contact  @relation(fields: [contactId], references: [id])
-  contactId Int
+  contact   contact?  @relation(fields: [contactId], references: [id])
+  contactId Int?
 }

@@ -29,6 +29,8 @@ export default function Events() {
 
 function Event({ event }) {
   let { title, venue, date, registerUrl, description } = event;
+  let readabledata = new Date(date);
+
   return (
     <div className="flex items-center">
       <div className="w-[400px] object-cover max-h-[260px] overflow-hidden">
@@ -40,7 +42,7 @@ function Event({ event }) {
       <div className="w-3/4 px-4">
         <h2 className="text-2xl font-bold mb-2">{title}</h2>
         <p className="text-gray-600 mb-2">{venue}</p>
-        <p className="text-gray-600 mb-2">{date}</p>
+        <p className="text-gray-600 mb-2">{readabledata.toString()}</p>
         <a href={registerUrl} className="text-blue-500 underline mb-2">
           Register
         </a>

@@ -23,3 +23,16 @@ export async function checkUser(user) {
     return newUser;
   }
 }
+
+export async function getUser(email:string) {
+  try {
+    const profile = await db.profile.findUnique({
+      where: {
+        email
+      }
+    })
+    return profile;
+  } catch (e) {
+    throw new Error('error'+e)
+  }
+}

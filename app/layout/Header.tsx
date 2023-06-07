@@ -114,6 +114,13 @@ export default function Header({ user, supabase }) {
                             aria-labelledby="dropdown"
                           >
                             <li>
+                              <div className="block cursor-pointer py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                {user?.admin && (
+                                  <Link to="/admin/dashboard">Dashboard</Link>
+                                )}
+                              </div>
+                            </li>
+                            <li>
                               <div
                                 onClick={handleLogout}
                                 className="block cursor-pointer py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
