@@ -3,13 +3,7 @@ import { getMonastery, getMonasteryByCity } from "~/model/monastery";
 import { useLoaderData } from "@remix-run/react";
 import { getRestaurants, getRestuarantsByCity } from "~/model/restaurant";
 export const loader: LoaderFunction = async ({ request, params }) => {
-  let city = params.city as string;
-  let restaurants;
-  if (city) {
-    restaurants = await getRestuarantsByCity(city);
-  } else {
-    restaurants = await getRestaurants();
-  }
+  let restaurants = await getRestaurants();
   return { restaurants };
 };
 

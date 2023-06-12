@@ -1,33 +1,33 @@
 import sgMail from "@sendgrid/mail";
-
+import { render } from "@react-email/render";
+import { EventEmail } from "~/component/UI/Email";
 //ES6
 
-export const sendMail = (subject: string, html = "") => {
+
+
+
+export const sendMail = (subject: string, data:any) => {
+  const emailHtml = render(EventEmail({ data }));
   const msg = {
-    // templateId: "d-5a0dd7dc32864884a39b0cb4cff1a600",
-    to: ["ngatso733@gmail.com", "contact@ngatso.in","ta3tsering@gmail.com"],
+    to: [
+      "tenkus47@gmail.com",
+      "ngatso733@gmail.com",
+      "contact@ngatso.in",
+    ],
     from: {
       name: "Ngatso India",
       email: "contact@ngatso.in",
     }, // Use the email address or domain you verified above
     subject: subject,
-    // dynamicTemplateData: {
-    //   Preheader: subject,
-    //   subject: html,
-    // },
-    html: html,
+    html: emailHtml,
   };
   sgMail.setApiKey(process.env.SENDGRID_API_KEY!);
   sgMail.send(msg).then(
     (e) => {
-      console.log(e);
+      console.log('success');
     },
     (error) => {
-      console.error(error);
-
-      if (error.response) {
-        console.error(error.response.body);
-      }
+      console.error('error');
     }
   );
 };

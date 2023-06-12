@@ -1,7 +1,15 @@
 import { ActionArgs, LoaderArgs } from "@remix-run/node";
-import { Form, useActionData, useFetcher, useLoaderData } from "@remix-run/react";
+import {
+  Form,
+  useActionData,
+  useFetcher,
+  useLoaderData,
+  useOutletContext,
+} from "@remix-run/react";
 import { createEvent, deleteAllSelection, getEvents } from "~/model/event";
-import {useEffect, useState} from 'react'
+import { useRef, useState } from 'react'
+import { v4 as uuidv4 } from "uuid";
+
 import { Modal } from "flowbite-react";
 export const loader = async ({request}:LoaderArgs)=>{
     let events =await getEvents();
@@ -11,7 +19,7 @@ export const loader = async ({request}:LoaderArgs)=>{
 export const action = async ({request}:ActionArgs) => {
   let formData = await request.formData();
   if (request.method === 'POST') {
-    let { title, venue, date, registerUrl, city, description } = Object.fromEntries(formData);
+    let { title, venue, date, registerUrl, city, description,imageUrl } = Object.fromEntries(formData);
   
     let res = await createEvent(
       title,
@@ -19,7 +27,8 @@ export const action = async ({request}:ActionArgs) => {
       city,
       venue,
       new Date(date),
-      registerUrl
+      registerUrl,
+      imageUrl
     );
   }
   if (request.method === 'DELETE') {
@@ -60,22 +69,21 @@ export default function Events() {
   return (
     <div className="overflow-x-auto">
       <div className="flex gap-2">
-
-      <button
-        type="button"
-        onClick={() => setOpenAdd(true)}
-        className="flex  items-center justify-center m-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+        <button
+          type="button"
+          onClick={() => setOpenAdd(true)}
+          className="flex  items-center justify-center m-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
         >
-        Add Event
-      </button>
-      <button
-        type="button"
-        onClick={handleRemove}
-        className="flex items-center justify-center m-2 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800"
+          Add Event
+        </button>
+        <button
+          type="button"
+          onClick={handleRemove}
+          className="flex items-center justify-center m-2 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800"
         >
-      Remove Event
-      </button>
-        </div>
+          Remove Event
+        </button>
+      </div>
       <Modal
         show={openAdd}
         dismissible
@@ -117,6 +125,9 @@ export default function Events() {
             </th>
             <th scope="col" className="px-4 py-3 min-w-[12rem]">
               City
+            </th>
+            <th scope="col" className="px-4 py-3 min-w-[12rem]">
+              poster
             </th>
             <th scope="col" className="px-4 py-3">
               <span className="sr-only">Actions</span>
@@ -186,13 +197,37 @@ function Event({ event, date,setSelectedItems,selectedItems }: any) {
       <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
         {event.city}
       </td>
+      <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+        {event.poster}
+      </td>
     </tr>
   );
 }
 
 function EventForm() {
   const actionData = useActionData();
+  const [imageUrl, setImageUrl] = useState("");
+  const imageRef = useRef<HTMLImageElement>(null);
 
+  const { supabase } = useOutletContext();
+
+   async function handleImage(e) {
+     let file = e.target.files[0];
+     const { data, error } = await supabase.storage
+       .from("image")
+       .upload(uuidv4(), file);
+     if (data) {
+       let filename = data.path;
+
+       let fileUrl = `https://fqudiggsyyiruawohnij.supabase.co/storage/v1/object/public/image/${filename}`;
+       setImageUrl(fileUrl);
+     }
+     if (error) {
+       console.log(error);
+     }
+   }
+
+  
   return (
     <div aria-hidden="true">
       <div className="relative p-4 w-full max-w-2xl h-full md:h-auto">
@@ -281,8 +316,39 @@ function EventForm() {
                   required
                 />
               </div>
-
-              <div >
+              <div className="sm:col-span-2">
+                <label
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  htmlFor="file"
+                >
+                  Upload Poster
+                </label>
+                <div className="items-center w-full sm:flex">
+                  <img
+                    className="mb-4 w-20 h-20 rounded-full sm:mr-4 sm:mb-0"
+                    ref={imageRef}
+                    src={imageUrl}
+                    alt="poster"
+                  />
+                  <div className="w-full">
+                    <input hidden value={imageUrl} name="imageUrl" readOnly />
+                    <input
+                      className="w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                      aria-describedby="file_input_help"
+                      id="file"
+                      type="file"
+                      onChange={(e) => handleImage(e)}
+                    />
+                    <p
+                      className="mt-1 text-xs font-normal text-gray-500 dark:text-gray-300"
+                      id="file_input_help"
+                    >
+                      SVG, PNG, JPG or GIF (MAX. 800x400px).
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div>
                 <label
                   htmlFor="description"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -311,9 +377,7 @@ function EventForm() {
               remove
             </button>
           </Form>
-          {
-            actionData?.message && <div>{ actionData?.message}</div>
-          }
+          {actionData?.message && <div>{actionData?.message}</div>}
         </div>
       </div>
     </div>

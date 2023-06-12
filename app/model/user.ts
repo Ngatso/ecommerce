@@ -19,7 +19,7 @@ export async function checkUser(user) {
       },
     });
     let html = `<h1>Welcome ${newUser.username} </h1>`;
-    sendMail("newUserCreated", html);
+    // sendMail("newUserCreated", html);
     return newUser;
   }
 }

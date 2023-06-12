@@ -12,16 +12,10 @@ import Login from "~/component/UI/Login";
 import { createBrowserClient } from "@supabase/auth-helpers-remix";
 import Spinner from "~/component/UI/Spinner";
 export const loader = async ({ request }: LoaderArgs) => {
-  // environment variables may be stored somewhere other than
-  // `process.env` in runtimes other than node
-  // we need to pipe these Supabase environment variables to the browser
   const env = {
     SUPABASE_URL: process.env.SUPABASE_URL!,
     SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY!,
   };
-
-  // We can retrieve the session on the server and hand it to the client.
-  // This is used to make sure the session is available immediately upon rendering
   const response = new Response();
 
   const supabase = createSupabaseClient({ request, response });
@@ -30,8 +24,6 @@ export const loader = async ({ request }: LoaderArgs) => {
     data: { session },
   } = await supabase.auth.getSession();
   if (session) return redirect("/");
-  // in order for the set-cookie header to be set,
-  // headers must be returned as part of the loader response
   return json(
     {
       env,

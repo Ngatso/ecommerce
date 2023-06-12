@@ -9,7 +9,6 @@ import { Form, useNavigation, useOutletContext } from "@remix-run/react";
 import { useRef ,useState} from "react";
 import { sendMail } from "~/services/sendmail.server";
 import { useActionData } from "@remix-run/react";
-import { createSupabaseClient } from "~/services/supabase.server";
 import { v4 as uuidv4 } from "uuid";
 export const action: ActionFunction = async ({ request }) => {
   const uploadHandler = unstable_composeUploadHandlers(
@@ -26,12 +25,12 @@ export const action: ActionFunction = async ({ request }) => {
   );
   const { fname, lname, email, organisation, venue, date, imageUrl } =
     Object.fromEntries(formData);
-  const emailBody = `<p> first name: ${fname}, last name: ${lname} , email: ${email} ,organisation:${organisation}, venue: ${venue} , date:${date}
-  with poster as</p> <img src='${imageUrl}' alt='posterImage'/>
-  `;
+ 
   let subject='event post request'
   try {
-    sendMail(subject, emailBody);
+    sendMail(subject, {
+      fname,lname,email,organisation,venue,date,imageUrl
+    });
     return {
       message: "email successfully sent. organiser will contact u soon",
     };
@@ -53,6 +52,7 @@ export default function AddEvent() {
       .upload(uuidv4(), file);
     if (data) {
       let filename = data.path;
+     
       let fileUrl = `https://fqudiggsyyiruawohnij.supabase.co/storage/v1/object/public/image/${filename}`;
       setImageUrl(fileUrl);
 
@@ -186,7 +186,7 @@ export default function AddEvent() {
               <div>
                 <label htmlFor="date">Date</label>
                 <input
-                  type="text"
+                  type="datetime-local"
                   name="date"
                   id="date"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"

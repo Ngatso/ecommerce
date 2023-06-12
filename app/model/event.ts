@@ -9,7 +9,7 @@ export async function getEvents() {
   }
 }
 
-export async function createEvent(title,description,city,venue,date,registerUrl) {
+export async function createEvent(title,description,city,venue,date,registerUrl,imageUrl) {
   try {
     const res = db.event.create({
       data: {
@@ -19,6 +19,7 @@ export async function createEvent(title,description,city,venue,date,registerUrl)
         registerUrl,
         date:date,
         venue,
+        poster:imageUrl
       }
     })
     return res;
