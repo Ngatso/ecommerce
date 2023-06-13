@@ -1,4 +1,4 @@
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData, useNavigation } from "@remix-run/react";
 import { useState, useEffect } from "react";
 import Cart from "../component/UI/Cart";
 
@@ -7,7 +7,14 @@ export default function Header({ user, supabase }) {
   const [menu1Open, setMenu1Open] = useState(false);
   const [menu2Open, setMenu2Open] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const [cart, setCart] = useState([]);
+  const navigation = useNavigation();
+ 
+  useEffect(() => {
+    setMenu1Open(false)
+    setMenu2Open(false)
+  }, [navigation.location?.pathname]);
+
+
   useEffect(() => {}, []);
 
   const handleLogout = async () => {
@@ -76,6 +83,7 @@ export default function Header({ user, supabase }) {
                   <img
                     src="https://static1.squarespace.com/static/60de2756bdea384623d3b191/t/615d072ac39a1012f5cbde1e/1636730283619/output-onlinepngtools-3.png"
                     style={{ width: 22, objectFit: "contain", marginRight: 10 }}
+                  loading="lazy"
                   />
                   <input
                     type="text"
@@ -114,6 +122,13 @@ export default function Header({ user, supabase }) {
                             aria-labelledby="dropdown"
                           >
                             <li>
+                              <div className="block cursor-pointer py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                {user?.admin && (
+                                  <Link to="/admin/dashboard">Dashboard</Link>
+                                )}
+                              </div>
+                            </li>
+                            <li>
                               <div
                                 onClick={handleLogout}
                                 className="block cursor-pointer py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
@@ -128,7 +143,8 @@ export default function Header({ user, supabase }) {
                   ) : (
                     <Link
                       to="/auth/login"
-                      className="text-lg font-medium text-primary-600 dark:text-primary-500"
+                        className="text-lg font-medium text-primary-600 dark:text-primary-500"
+                        
                     >
                       Login
                     </Link>
@@ -222,8 +238,8 @@ export default function Header({ user, supabase }) {
             <ul className="flex flex-col gap-4 w-fit text-base">
               <h2 className="text-xl  font-extrabold">New Delhi</h2>
               <Link to={"/events"}>Events</Link>
-              <Link to={"/monastery/delhi"}>Monasteries</Link>
-              <Link to={"/restaurant/delhi"}>Eats</Link>
+              <Link to={"/monastery"}>Monasteries</Link>
+              <Link to={"/restaurant"}>Eats</Link>
             </ul>
             <ul className="flex ml-3 flex-col gap-4 text-base">
               <h2 className="text-xl font-extrabold">Dharamsala</h2>

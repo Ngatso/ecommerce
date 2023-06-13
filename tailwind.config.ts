@@ -8,6 +8,9 @@ export default {
     fontFamily: {
       "caslon": ["caslon", "sans-serif"],
       "minion":["minion","serif"]
+    },
+    colors: {
+      "primary":"blue"
     }
   },
   plugins: [require("flowbite/plugin")],

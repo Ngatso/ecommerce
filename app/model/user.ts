@@ -19,7 +19,20 @@ export async function checkUser(user) {
       },
     });
     let html = `<h1>Welcome ${newUser.username} </h1>`;
-    sendMail("newUserCreated", html);
+    // sendMail("newUserCreated", html);
     return newUser;
+  }
+}
+
+export async function getUser(email:string) {
+  try {
+    const profile = await db.profile.findUnique({
+      where: {
+        email
+      }
+    })
+    return profile;
+  } catch (e) {
+    throw new Error('error'+e)
   }
 }

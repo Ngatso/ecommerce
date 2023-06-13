@@ -43,18 +43,20 @@ export default function Footer() {
               <ul className="text-gray-600 dark:text-gray-400 font-medium">
                 <li className="mb-4">
                   <a
-                    href="https://github.com/themesberg/flowbite"
+                    href="https://facebook.com"
                     className="hover:underline "
+                    target="_blank"
                   >
-                    Github
+                    Facebook
                   </a>
                 </li>
                 <li>
                   <a
-                    href="https://discord.gg/4eeurUVvTy"
+                    href="https://instagram.com"
                     className="hover:underline"
+                    target="_blank"
                   >
-                    Discord
+                    Instagram
                   </a>
                 </li>
               </ul>

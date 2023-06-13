@@ -14,7 +14,6 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
 export default function Monasteries() {
   let { monastery } = useLoaderData();
-  console.log(monastery);
   return (
     <section>
       <h1 className="text-3xl font-bold text-center my-3">

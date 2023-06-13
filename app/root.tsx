@@ -15,6 +15,7 @@ import {
   V2_MetaFunction,
   useFetcher,
   useLoaderData,
+  useLocation
 } from "@remix-run/react";
 import stylesheet from "~/style/tailwind.css";
 import globalsheet from "~/style/global.css";
@@ -89,7 +90,7 @@ export default function App() {
   );
 
   const serverAccessToken = session?.access_token;
-
+  let location = useLocation();
   useEffect(() => {
     const {
       data: { subscription },
@@ -111,7 +112,7 @@ export default function App() {
       subscription.unsubscribe();
     };
   }, [serverAccessToken, supabase, refreshFetcher]);
-
+  const isAdminPage =location.pathname.includes('admin')
   return (
     <html lang="en">
       <head>
@@ -121,15 +122,14 @@ export default function App() {
         <Links />
       </head>
       <body style={{ fontFamily: "serif" }}>
-        <Header user={user} supabase={supabase} />
+        {!isAdminPage && <Header user={user} supabase={supabase} />}
         <Outlet context={{ supabase, session }} />
         <Sidebar />
-        <Footer />
+        {!isAdminPage && <Footer />}
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
-      </body>
+        </body>
     </html>
   );
 }

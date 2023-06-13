@@ -28,20 +28,33 @@ export default function Events() {
 }
 
 function Event({ event }) {
-  let { title, venue, date, registerUrl, description } = event;
+  let { title, venue, date, registerUrl, description,poster } = event;
+  let readabledata = new Date(date);
+
+ 
+
+  function addHttp(registerUrl: any): string | undefined {
+    if (registerUrl.startsWith("http://") || registerUrl.startsWith("https://")) {
+    return registerUrl;
+    } else {
+      return "https://" + registerUrl;
+    }
+  }
+
   return (
-    <div className="flex items-center">
-      <div className="w-[400px] object-cover max-h-[260px] overflow-hidden">
+    <div className="flex items-center mb-4" >
+      <div className="w-[400px] object-cover max-h-[260px] overflow-hidden rounded shadow">
         <img
-          src="https://images.squarespace-cdn.com/content/v1/60de2756bdea384623d3b191/1684202859324-7O7U3A1DVLXS6RP3HXHZ/Prayers+for+His+Holiness+the+Dalai+Lama.jpg?format=750w"
+          src={poster}
           alt="Event Image"
+          className="hover:scale-105  transition-all duration-500 ease-in-out object-cover w-full h-full"
         />
       </div>
       <div className="w-3/4 px-4">
         <h2 className="text-2xl font-bold mb-2">{title}</h2>
         <p className="text-gray-600 mb-2">{venue}</p>
-        <p className="text-gray-600 mb-2">{date}</p>
-        <a href={registerUrl} className="text-blue-500 underline mb-2">
+        <p className="text-gray-600 mb-2">{readabledata.toString()}</p>
+        <a href={addHttp(registerUrl)} target="_blank" className="text-blue-500 underline mb-2">
           Register
         </a>
         <p className="text-gray-800">{description}</p>
