@@ -1,11 +1,25 @@
 import { db } from "~/services/db.server";
+import { contactType } from "./contact";
+
+
+export type restaurantType = {
+  id: string;
+  name: string;
+  photos: string[];
+  location?: string;
+  city?: string;
+  menu: string;
+  contact?: contactType;
+  contactId?: number;
+};
 
 export function getRestaurants() {
   try {
-    let restaurant = db.restaurant.findMany();
-    return restaurant;
+    let restaurants = db.restaurant.findMany();
+    return restaurants;
   } catch (e) {
     console.log(e);
+    return [];
   }
 }
 

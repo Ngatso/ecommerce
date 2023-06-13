@@ -2,12 +2,12 @@ import { createSupabaseClient } from "~/services/supabase.server";
 import {useLoaderData ,Link,NavLink,Outlet} from '@remix-run/react'
 import { getUser } from "~/model/user";
 import { useState } from "react";
-import { redirect } from "@remix-run/node";
+import { LoaderArgs, redirect } from "@remix-run/node";
 import { BsCalendar2Event } from 'react-icons/bs'
 import { GiPrayer } from 'react-icons/gi'
 import { BiRestaurant } from 'react-icons/bi'
 import { createBrowserClient } from "@supabase/auth-helpers-remix";
-export const loader = async ({ request }) => {
+export const loader = async ({ request }:LoaderArgs) => {
    const env = {
      SUPABASE_URL: process.env.SUPABASE_URL!,
      SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY!,

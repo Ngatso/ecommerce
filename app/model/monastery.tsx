@@ -1,4 +1,16 @@
 import { db } from "~/services/db.server";
+import type { contactType } from "./contact";
+
+
+export type monasteryType = {
+  id: string;
+  name: string;
+  location?: string;
+  contact?: contactType;
+  contactId?: number;
+  city?: string;
+  image: string[];
+};
 
 export function getMonastery() {
   try {

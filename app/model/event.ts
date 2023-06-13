@@ -1,4 +1,19 @@
 import { db } from "~/services/db.server";
+import type { contactType } from "./contact";
+
+export type eventType = {
+  id: string;
+  title: string;
+  description?: string;
+  poster: string[];
+  venue?: string;
+  date?: Date;
+  city?: string;
+  registerUrl?: string;
+  contact?: contactType;
+  contactId?: number;
+};
+
 
 export async function getEvents() {
   try {

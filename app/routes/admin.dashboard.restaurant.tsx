@@ -152,7 +152,7 @@ function Restaurant({
       setSelectedItems([...selectedItems, itemId]);
     }
   };
-console.log(restaurant)
+
   return (
     <tr className="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
       <td className="px-4 py-3 w-4">

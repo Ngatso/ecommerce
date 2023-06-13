@@ -1,15 +1,15 @@
 import { LoaderFunction } from "@remix-run/node";
-import { getMonastery, getMonasteryByCity } from "~/model/monastery";
 import { useLoaderData } from "@remix-run/react";
-import { getRestaurants, getRestuarantsByCity } from "~/model/restaurant";
+import { getRestaurants } from "~/model/restaurant";
+import type { restaurantType } from "~/model/restaurant";
+
 export const loader: LoaderFunction = async ({ request, params }) => {
-  let restaurants = await getRestaurants();
+  let restaurants: restaurantType[] = await getRestaurants();
   return { restaurants };
 };
 
 export default function Monasteries() {
-  let { restaurants } = useLoaderData();
-  console.log(restaurants);
+  let { restaurants } = useLoaderData() as ReturnType<typeof loader>;
   return (
     <section>
       <h1 className="text-3xl font-bold text-center my-3">
@@ -26,7 +26,7 @@ export default function Monasteries() {
   );
 }
 function Restaurant({ restaurant }) {
-  let { name, location, image } = restaurant;
+  let { name, location, photos,city,contact } = restaurant;
   return (
     <div className="max-w-xs flex flex-col justify-center">
       <div className="max-h-[245px] max-w-[360px] overflow-hidden">

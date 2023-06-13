@@ -1,7 +1,19 @@
 import { db } from "~/services/db.server";
 import { sendMail } from "~/services/sendmail.server";
 
-export async function checkUser(user) {
+ export type profileType = {
+  id: string;
+  created_at?: Date;
+  username?: string;
+  email?: string;
+  mobile?: string;
+  avatar?: string;
+  address?: string;
+  admin?: boolean;
+};
+
+
+export async function checkUser(user:any) {
   const profile = await db.profile.findUnique({
     where: {
       email: user.email,

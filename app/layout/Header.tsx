@@ -1,8 +1,15 @@
-import { Link, useLoaderData, useNavigation } from "@remix-run/react";
+import { Link,  useNavigation } from "@remix-run/react";
 import { useState, useEffect } from "react";
 import Cart from "../component/UI/Cart";
+import type { profileType } from "~/model/user";
+import { SupabaseClient } from "@supabase/supabase-js";
 
-export default function Header({ user, supabase }) {
+type headerType = {
+  user: profileType;
+  supabase: SupabaseClient;
+}
+
+export default function Header({ user, supabase }:headerType) {
   let error = null;
   const [menu1Open, setMenu1Open] = useState(false);
   const [menu2Open, setMenu2Open] = useState(false);
