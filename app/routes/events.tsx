@@ -40,13 +40,18 @@ function Event({ event }) {
       return "https://" + registerUrl;
     }
   }
-
+  function handleErrorImg(e: any) {
+    e.target.onerror = null;
+    e.target.src = "https://placehold.co/600x400";
+  }
+  let imgsrc = addHttp(poster[0]);
   return (
-    <div className="flex items-center mb-4" >
-      <div className="w-[400px] object-cover max-h-[260px] overflow-hidden rounded shadow">
+    <div className="flex items-center mb-4">
+      <div className="w-[400px] object-cover max-h-[210px] flex-1 overflow-hidden rounded shadow">
         <img
-          src={poster}
-          alt="Event Image"
+          src={imgsrc}
+          alt="Event Images"
+          onError={handleErrorImg}
           className="hover:scale-105  transition-all duration-500 ease-in-out object-cover w-full h-full"
         />
       </div>
@@ -54,7 +59,11 @@ function Event({ event }) {
         <h2 className="text-2xl font-bold mb-2">{title}</h2>
         <p className="text-gray-600 mb-2">{venue}</p>
         <p className="text-gray-600 mb-2">{readabledata.toString()}</p>
-        <a href={addHttp(registerUrl)} target="_blank" className="text-blue-500 underline mb-2">
+        <a
+          href={addHttp(registerUrl)}
+          target="_blank"
+          className="text-blue-500 underline mb-2"
+        >
           Register
         </a>
         <p className="text-gray-800">{description}</p>
