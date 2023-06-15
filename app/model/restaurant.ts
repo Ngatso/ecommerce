@@ -1,5 +1,5 @@
 import { db } from "~/services/db.server";
-import { contactType } from "./contact";
+import { metaType } from "./meta";
 
 
 export type restaurantType = {
@@ -9,8 +9,8 @@ export type restaurantType = {
   location?: string;
   city?: string;
   menu: string;
-  contact?: contactType;
-  contactId?: number;
+  meta?: metaType;
+  metaId?: number;
 };
 
 export function getRestaurants() {

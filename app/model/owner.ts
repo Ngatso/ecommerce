@@ -1,4 +1,4 @@
-import type { contactType } from "./contact";
+import type { metaType } from "./meta";
 
 export type ownerType = {
   id: string;
@@ -6,6 +6,6 @@ export type ownerType = {
   qualification?: string;
   description?: string;
   image: string[];
-  contact?: contactType;
-  contactId?: number;
+  meta?: metaType;
+  metaId?: number;
 };

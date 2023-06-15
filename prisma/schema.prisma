@@ -26,11 +26,11 @@ model owner {
   qualification String?
   description   String?
   image         String[]
-  contact       contact?  @relation(fields: [contactId], references: [id])
-  contactId     Int?
+  meta       meta?  @relation(fields: [metaId], references: [id])
+  metaId     Int?
 }
 
-model contact {
+model meta {
   id          Int          @id @default(autoincrement())
   name        String
   mobile      String?
@@ -53,16 +53,16 @@ model event {
   date        DateTime?
   city        String?
   registerUrl String?
-  contact     contact?   @relation(fields: [contactId], references: [id])
-  contactId   Int?
+  meta     meta?   @relation(fields: [metaId], references: [id])
+  metaId   Int?
 }
 
 model monastery {
   id        String   @id @unique @default(uuid())
   name      String
   location  String?
-  contant   contact?  @relation(fields: [contactId], references: [id])
-  contactId Int?
+  meta   meta?  @relation(fields: [metaId], references: [id])
+  metaId Int?
   city      String?
   image     String[]
 }
@@ -74,6 +74,6 @@ model restaurant {
   location  String?
   city      String?
   menu      String
-  contact   contact?  @relation(fields: [contactId], references: [id])
-  contactId Int?
+  meta   meta?  @relation(fields: [metaId], references: [id])
+  metaId Int?
 }

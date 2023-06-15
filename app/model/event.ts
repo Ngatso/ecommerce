@@ -1,5 +1,5 @@
 import { db } from "~/services/db.server";
-import type { contactType } from "./contact";
+import type { metaType } from "./meta";
 
 export type eventType = {
   id: string;
@@ -10,8 +10,8 @@ export type eventType = {
   date?: Date;
   city?: string;
   registerUrl?: string;
-  contact?: contactType;
-  contactId?: number;
+  meta?: metaType;
+  metaId?: number;
 };
 
 

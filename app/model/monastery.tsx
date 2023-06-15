@@ -1,13 +1,13 @@
 import { db } from "~/services/db.server";
-import type { contactType } from "./contact";
+import type { metaType } from "./meta";
 
 
 export type monasteryType = {
   id: string;
   name: string;
   location?: string;
-  contact?: contactType;
-  contactId?: number;
+  meta?: metaType;
+  metaId?: number;
   city?: string;
   image: string[];
 };

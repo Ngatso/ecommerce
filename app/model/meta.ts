@@ -4,7 +4,7 @@ import type { ownerType } from "./owner";
 import type { restaurantType } from "./restaurant";
 
 
-export type contactType = {
+export type metaType = {
   id: number;
   name: string;
   mobile?: string;

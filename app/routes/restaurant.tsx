@@ -18,15 +18,15 @@ export default function Monasteries() {
       </h1>
 
       <div className="flex flex-wrap gap-3 max-w-5xl mt-10 mx-auto">
-        {restaurants.map((restaurant) => (
+        {restaurants.map((restaurant:restaurantType) => (
           <Restaurant restaurant={restaurant} key={restaurant.id} />
         ))}
       </div>
     </section>
   );
 }
-function Restaurant({ restaurant }) {
-  let { name, location, photos,city,contact } = restaurant;
+function Restaurant({ restaurant }:{restaurant:restaurantType}) {
+  let { name, location, photos,city,meta } = restaurant;
   return (
     <div className="max-w-xs flex flex-col justify-center">
       <div className="max-h-[245px] max-w-[360px] overflow-hidden">
