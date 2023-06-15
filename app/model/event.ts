@@ -43,15 +43,12 @@ export async function createEvent(title,description,city,venue,date,registerUrl,
   }
 }
 
-export async function deleteAllSelection(eventIds) {
+export async function deleteEvent(id:string) {
   try {
-    await db.$transaction(
-      eventIds.map((id) =>
-        db.event.delete({
+   
+      await  db.event.delete({
           where: { id },
         })
-      )
-    );
 
     console.log("Items deleted successfully.");
   } catch (e) {

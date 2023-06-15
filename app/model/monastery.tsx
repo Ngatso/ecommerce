@@ -55,16 +55,11 @@ export async function createMonastery(
   }
 }
 
-export async function deleteAllSelection(monasteryIds: string[]) {
+export async function deleteMonastery(id: string) {
   try {
-    await db.$transaction(
-      monasteryIds.map((id) =>
-        db.monastery.delete({
-          where: { id },
-        })
-      )
-    );
-
+    await db.monastery.delete({
+      where: { id },
+    });
     console.log("Items deleted successfully.");
   } catch (e) {
     console.log(e);

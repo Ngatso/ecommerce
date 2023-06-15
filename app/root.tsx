@@ -67,7 +67,6 @@ export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
   // in order for the set-cookie header to be set,
   // headers must be returned as part of the loader response
   return json(

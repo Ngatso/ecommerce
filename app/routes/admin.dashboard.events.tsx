@@ -6,7 +6,7 @@ import {
   useLoaderData,
   useOutletContext,
 } from "@remix-run/react";
-import { createEvent, deleteAllSelection, getEvents } from "~/model/event";
+import { createEvent,  deleteEvent, eventType, getEvents } from "~/model/event";
 import { useRef, useState } from 'react'
 import { v4 as uuidv4 } from "uuid";
 
@@ -32,10 +32,8 @@ export const action = async ({request}:ActionArgs) => {
     );
   }
   if (request.method === 'DELETE') {
-    let { eventIds } = Object.fromEntries(formData);
-    let events = JSON.parse(eventIds as string);
-    let res = await deleteAllSelection(events);
-    console.log(res);
+    let { id } = Object.fromEntries(formData);
+    let res = await deleteEvent(id as string);
   }
   return {message:'sent'};
 }
@@ -43,29 +41,7 @@ export const action = async ({request}:ActionArgs) => {
 export default function Events() {
   const {events} = useLoaderData();
   const [openAdd, setOpenAdd] = useState(false);
-  const deleteFetcher = useFetcher();
- const [selectAll, setSelectAll] = useState(false);
- const [selectedItems, setSelectedItems] = useState([]);
-   const handleSelectAll = () => {
-     setSelectAll(!selectAll);
-     if (!selectAll) {
-       setSelectedItems(events.map((item) => item.id));
-     } else {
-       setSelectedItems([]);
-     }
-  };
-  const handleRemove = () => {
-    if (selectedItems.length === 0) {
-      alert('nothing is selected')
-      return;
-    }
-    deleteFetcher.submit({
-        eventIds:JSON.stringify(selectedItems)
-    }, {
-      method:"DELETE"
-    })
 
-  }
   return (
     <div className="overflow-x-auto">
       <div className="flex gap-2">
@@ -76,13 +52,6 @@ export default function Events() {
         >
           Add Event
         </button>
-        <button
-          type="button"
-          onClick={handleRemove}
-          className="flex items-center justify-center m-2 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800"
-        >
-          Remove Event
-        </button>
       </div>
       <Modal
         show={openAdd}
@@ -90,24 +59,11 @@ export default function Events() {
         onClose={() => setOpenAdd(false)}
         className="h-screen"
       >
-        <EventForm />
+        <EventForm close={() => setOpenAdd(false)} />
       </Modal>
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            <th scope="col" className="p-4">
-              <div className="flex items-center">
-                <input
-                  id="checkbox-all"
-                  type="checkbox"
-                  onChange={handleSelectAll}
-                  className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                />
-                <label htmlFor="checkbox-all" className="sr-only">
-                  checkbox
-                </label>
-              </div>
-            </th>
             <th scope="col" className="px-4 py-3 min-w-[14rem]">
               Title
             </th>
@@ -130,52 +86,35 @@ export default function Events() {
               poster
             </th>
             <th scope="col" className="px-4 py-3">
-              <span className="sr-only">Actions</span>
+              operations
             </th>
           </tr>
         </thead>
-        {events.map((event) => {
+        {events.map((event: eventType) => {
           const date = new Date(event.date);
-          return (
-            <Event
-              event={event}
-              key={event.id}
-              date={date}
-              setSelectedItems={setSelectedItems}
-              selectedItems={selectedItems}
-            />
-          );
+          return <Event event={event} key={event.id} date={date} />;
         })}
       </table>
     </div>
   );
 }
 
-function Event({ event, date,setSelectedItems,selectedItems }: any) {
-   const handleSelectItem = (itemId) => {
-     if (selectedItems.includes(itemId)) {
-       setSelectedItems(selectedItems.filter((id) => id !== itemId));
-     } else {
-       setSelectedItems([...selectedItems, itemId]);
-     }
-   };
+function Event({ event, date }: any) {
 
+  const deleteFetcher = useFetcher();
+
+  const handleRemove = (id: string) => {
+    deleteFetcher.submit(
+      {
+        id,
+      },
+      {
+        method: "DELETE",
+      }
+    );
+  };
   return (
     <tr className="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
-      <td className="px-4 py-3 w-4">
-        <div className="flex items-center">
-          <input
-            id="checkbox-table-search-1"
-            type="checkbox"
-            checked={selectedItems.includes(event.id)}
-            onChange={() => handleSelectItem(event.id)}
-            className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-          />
-          <label htmlFor="checkbox-table-search-1" className="sr-only">
-            checkbox
-          </label>
-        </div>
-      </td>
       <th
         scope="row"
         className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white flex items-center"
@@ -200,11 +139,20 @@ function Event({ event, date,setSelectedItems,selectedItems }: any) {
       <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
         {event.poster}
       </td>
+      <td>
+        <button
+          disabled={deleteFetcher.formMethod==='DELETE'}
+          className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+          onClick={() => handleRemove(event.id)}
+        >
+          {deleteFetcher.formMethod === 'DELETE' ? "removing" : "remove"}
+        </button>
+      </td>
     </tr>
   );
 }
 
-function EventForm() {
+function EventForm({close}: {close:()=>void}) {
   const actionData = useActionData();
   const [imageUrl, setImageUrl] = useState("");
   const imageRef = useRef<HTMLImageElement>(null);
@@ -227,6 +175,10 @@ function EventForm() {
      }
    }
 
+  if (actionData?.message) {
+    close();
+          }
+          
   
   return (
     <div aria-hidden="true">
@@ -328,6 +280,7 @@ function EventForm() {
                     className="mb-4 w-20 h-20 rounded-full sm:mr-4 sm:mb-0"
                     ref={imageRef}
                     src={imageUrl}
+                    onError={e=>e.target.src="https://via.placeholder.com/150"}
                     alt="poster"
                   />
                   <div className="w-full">
@@ -377,7 +330,6 @@ function EventForm() {
               remove
             </button>
           </Form>
-          {actionData?.message && <div>{actionData?.message}</div>}
         </div>
       </div>
     </div>

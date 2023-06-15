@@ -17,7 +17,8 @@ export const loader = async ({ request }:LoaderArgs) => {
     const {
     data: { user },
     } = await supabase.auth.getUser();
-    let userDB = await getUser(user?.email!);
+  let userDB = await getUser(user?.email!);
+  console.log(userDB)
   if (!userDB?.admin) return redirect("/");
    
     return { user:userDB ,env};

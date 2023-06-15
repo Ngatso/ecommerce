@@ -36,15 +36,21 @@ export async function checkUser(user:any) {
   }
 }
 
-export async function getUser(email:string) {
-  try {
-    const profile = await db.profile.findUnique({
-      where: {
-        email
-      }
-    })
-    return profile;
-  } catch (e) {
-    throw new Error('error'+e)
+export async function getUser(email: string) {
+  if (email) {
+    try {
+      const profile = await db.profile.findUnique({
+        where: {
+          email
+        }
+      })
+
+      return profile;
+    } catch (e) {
+      throw new Error('user database error')
+    }
+  }
+  else {
+    return null;
   }
 }

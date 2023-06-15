@@ -5,12 +5,13 @@ import {
   useFetcher,
   useLoaderData,
 } from "@remix-run/react";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { Modal } from "flowbite-react";
 import {
   createRestaurant,
   getRestaurants,
-  deleteAllSelection,
+  restaurantType,
+  deleteRestaurant,
 } from "~/model/restaurant";
 export const loader = async ({ request }: LoaderArgs) => {
   let restaurants = await getRestaurants();
@@ -31,9 +32,8 @@ export const action = async ({ request }: ActionArgs) => {
     );
   }
   if (request.method === "DELETE") {
-    let { eventIds } = Object.fromEntries(formData);
-    let events = JSON.parse(eventIds as string);
-    let res = await deleteAllSelection(events);
+    let { id } = Object.fromEntries(formData);
+    let res = await deleteRestaurant(id as string);
   }
   return { message: "sent" };
 };
@@ -41,31 +41,7 @@ export const action = async ({ request }: ActionArgs) => {
 export default function Restaurants() {
   const { restaurants } = useLoaderData();
   const [openAdd, setOpenAdd] = useState(false);
-  const deleteFetcher = useFetcher();
-  const [selectAll, setSelectAll] = useState(false);
-  const [selectedItems, setSelectedItems] = useState([]);
-  const handleSelectAll = () => {
-    setSelectAll(!selectAll);
-    if (!selectAll) {
-      setSelectedItems(restaurants.map((item) => item.id));
-    } else {
-      setSelectedItems([]);
-    }
-  };
-  const handleRemove = () => {
-    if (selectedItems.length === 0) {
-      alert("nothing is selected");
-      return;
-    }
-    deleteFetcher.submit(
-      {
-        eventIds: JSON.stringify(selectedItems),
-      },
-      {
-        method: "DELETE",
-      }
-    );
-  };
+
   return (
     <div className="overflow-x-auto">
       <div className="flex gap-2">
@@ -75,13 +51,6 @@ export default function Restaurants() {
           className="flex  items-center justify-center m-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
         >
           Add restaurant
-        </button>
-        <button
-          type="button"
-          onClick={handleRemove}
-          className="flex items-center justify-center m-2 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800"
-        >
-          Remove
         </button>
       </div>
       <Modal
@@ -95,19 +64,6 @@ export default function Restaurants() {
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            <th scope="col" className="p-4">
-              <div className="flex items-center">
-                <input
-                  id="checkbox-all"
-                  type="checkbox"
-                  onChange={handleSelectAll}
-                  className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                />
-                <label htmlFor="checkbox-all" className="sr-only">
-                  checkbox
-                </label>
-              </div>
-            </th>
             <th scope="col" className="px-4 py-3 min-w-[14rem]">
               Name
             </th>
@@ -120,18 +76,20 @@ export default function Restaurants() {
             <th scope="col" className="px-4 py-3 min-w-[6rem]">
               menu
             </th>
+            <th scope="col" className="px-4 py-3 min-w-[6rem]">
+              operations
+            </th>
             <th scope="col" className="px-4 py-3">
               <span className="sr-only">Actions</span>
             </th>
           </tr>
         </thead>
-        {restaurants.map((restaurant) => {
+        {restaurants.map((restaurant: restaurantType) => {
           return (
             <Restaurant
               restaurant={restaurant}
               key={restaurant.id}
-              setSelectedItems={setSelectedItems}
-              selectedItems={selectedItems}
+              
             />
           );
         })}
@@ -141,34 +99,23 @@ export default function Restaurants() {
 }
 
 function Restaurant({
-  restaurant,
-  setSelectedItems,
-  selectedItems,
+  restaurant
 }: any) {
-  const handleSelectItem = (itemId) => {
-    if (selectedItems.includes(itemId)) {
-      setSelectedItems(selectedItems.filter((id) => id !== itemId));
-    } else {
-      setSelectedItems([...selectedItems, itemId]);
-    }
+  const deleteFetcher = useFetcher();
+
+  const handleRemove = (id: string) => {
+    deleteFetcher.submit(
+      {
+        id,
+      },
+      {
+        method: "DELETE",
+      }
+    );
   };
 
   return (
     <tr className="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
-      <td className="px-4 py-3 w-4">
-        <div className="flex items-center">
-          <input
-            id="checkbox-table-search-1"
-            type="checkbox"
-            checked={selectedItems.includes(restaurant.id)}
-            onChange={() => handleSelectItem(restaurant.id)}
-            className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-          />
-          <label htmlFor="checkbox-table-search-1" className="sr-only">
-            checkbox
-          </label>
-        </div>
-      </td>
       <th
         scope="row"
         className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white flex items-center"
@@ -182,7 +129,14 @@ function Restaurant({
       <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
         {restaurant.menu}
       </td>
-    
+      <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+        <button
+          className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+          onClick={() => handleRemove(restaurant.id)}
+        >
+          {deleteFetcher.formMethod === "DELETE" ? "removing" : "remove"}
+        </button>
+      </td>
     </tr>
   );
 }

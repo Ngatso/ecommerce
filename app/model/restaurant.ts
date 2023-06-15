@@ -18,7 +18,6 @@ export function getRestaurants() {
     let restaurants = db.restaurant.findMany();
     return restaurants;
   } catch (e) {
-    console.log(e);
     return [];
   }
 }
@@ -58,15 +57,13 @@ export async function createRestaurant(
   }
 }
 
-export async function deleteAllSelection(restaurantIds) {
+export async function deleteRestaurant(id:string) {
   try {
-    await db.$transaction(
-      restaurantIds.map((id) =>
+    await
         db.restaurant.delete({
           where: { id },
         })
-      )
-    );
+      
 
     console.log("Items deleted successfully.");
   } catch (e) {
