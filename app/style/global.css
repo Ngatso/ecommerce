@@ -25,3 +25,7 @@ a {
 body {
   font-family: "caslon";
 }
+.backLink::before{
+  content: "←";
+  margin-right: 5px;
+}

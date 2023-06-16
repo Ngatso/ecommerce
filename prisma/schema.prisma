@@ -46,7 +46,7 @@ model meta {
 
 model event {
   id          String    @id @unique @default(uuid())
-  title       String
+  title       String    @unique
   description String?
   poster      String[]
   venue       String?

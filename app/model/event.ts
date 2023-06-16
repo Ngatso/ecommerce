@@ -23,6 +23,16 @@ export async function getEvents() {
     console.log(e);
   }
 }
+export async function getEvent(title: string) {
+  try {
+    const res = db.event.findUnique({
+      where: { title },
+    });
+    return res;
+  } catch (e) {
+    console.log(e);
+  }
+ }
 
 export async function createEvent(title,description,city,venue,date,registerUrl,imageUrl) {
   try {
