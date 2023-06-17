@@ -20,29 +20,6 @@ model profile {
   admin      Boolean?
 }
 
-model owner {
-  id            String   @id @unique @default(uuid())
-  name          String
-  qualification String?
-  description   String?
-  image         String[]
-  meta       meta?  @relation(fields: [metaId], references: [id])
-  metaId     Int?
-}
-
-model meta {
-  id          Int          @id @default(autoincrement())
-  name        String
-  mobile      String?
-  email       String?
-  website     String?
-  openingTime String? // Add openingTime field
-  closingTime String?
-  event       event[]
-  monastery   monastery[]
-  owner       owner[]
-  restaurant  restaurant[]
-}
 
 model event {
   id          String    @id @unique @default(uuid())
@@ -50,30 +27,50 @@ model event {
   description String?
   poster      String[]
   venue       String?
-  date        DateTime?
+  area        String?
   city        String?
+  state       String?
+  date        DateTime?
+  duration    String?
   registerUrl String?
-  meta     meta?   @relation(fields: [metaId], references: [id])
-  metaId   Int?
 }
 
 model monastery {
-  id        String   @id @unique @default(uuid())
-  name      String   @unique
-  location  String?
-  meta   meta?  @relation(fields: [metaId], references: [id])
-  metaId Int?
-  city      String?
-  image     String[]
+  id            String   @id @unique @default(uuid())
+  name          String   @unique
+  description   String?
+  area          String?
+  city          String?
+  state         String?
+  opening       String?
+  contact_phone String?
+  contact_email String?
+  website       String?
+  parking       String?
+  photos        String[]
+  thumbnail     String?
+  latitude      Float?
+  longitude     Float?
+  lama_name    String?
+  lama_photo   String?
+  lama_description  String?
 }
 
 model restaurant {
-  id        String   @id @unique @default(uuid())
-  name      String   @unique
-  photos    String[]
-  location  String?
-  city      String?
-  menu      String
-  meta   meta?  @relation(fields: [metaId], references: [id])
-  metaId Int?
+  id            String   @id @unique @default(uuid())
+  name          String   @unique
+  type          String?
+  description   String?
+  opening       String?
+  contact_phone String?
+  contact_email String?
+  thumbnail     String?
+  photos        String[]
+  area          String?
+  city          String?
+  state         String?
+  menu_link     String[]
+  website       String?
+  latitude      Float?
+  longitude     Float?
 }

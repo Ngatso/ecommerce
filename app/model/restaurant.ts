@@ -1,18 +1,24 @@
 import { db } from "~/services/db.server";
-import { metaType } from "./meta";
 
 
 export type restaurantType = {
   id: string;
   name: string;
+  type?: string;
+  description?: string;
+  opening?: string;
+  contactPhone?: string;
+  contactEmail?: string;
+  thumbnail?: string;
   photos: string[];
-  location?: string;
+  area?: string;
   city?: string;
-  menu: string;
-  meta?: metaType;
-  metaId?: number;
+  state?: string;
+  menuLink?: string;
+  website?: string;
+  latitude?: number;
+  longitude?: number;
 };
-
 export function getRestaurants() {
   try {
     let restaurants = db.restaurant.findMany();
@@ -21,7 +27,20 @@ export function getRestaurants() {
     return [];
   }
 }
-
+export function getRestaurant(name:string) {
+  try {
+    let restaurant = db.restaurant.findUnique(
+      {
+        where: {
+          name,
+        }
+      }
+    );
+    return restaurant;
+  } catch (e) {
+    return [];
+  }
+}
 export function getRestuarantsByCity(city: string) {
   try {
     let restaurant = db.restaurant.findMany({
@@ -37,7 +56,6 @@ export function getRestuarantsByCity(city: string) {
 
 export async function createRestaurant(
   name:string,
-  location:string,
   city :string,
   menu:string,
 ) {
@@ -45,9 +63,8 @@ export async function createRestaurant(
     const res = db.restaurant.create({
       data: {
         name: name,
-        location: location,
         city: city,
-        menu: menu,
+        menu_link:menu,
         photos:[],
       },
     });

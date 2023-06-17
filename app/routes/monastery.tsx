@@ -38,20 +38,18 @@ export default function Monasteries() {
   );
 }
 function Monastery({ monastery }) {
-  let { name, location, image } = monastery;
+  let { name, location, thumbnail } = monastery;
   return (
     <div className="max-w-xs flex flex-col justify-center">
       <div className="max-h-[245px] max-w-[360px] overflow-hidden">
         <img
           className="w-full object-cover hover:scale-105 transition-all duration-500 ease-in-out rounded"
-          src={
-            "https://images.squarespace-cdn.com/content/v1/60de2756bdea384623d3b191/1654883717657-1TFJIL3PRHJJLWAT80LW/outside.png?format=500w"
-          }
+          src={thumbnail}
         />
       </div>
       <div className="text-lg text-center py-2 capitalize">{name}</div>
       <Link
-        to={"/monastery/"+name}
+        to={"/monastery/" + name}
         className="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
       >
         Visit

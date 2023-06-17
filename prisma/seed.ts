@@ -59,10 +59,7 @@ async function seed() {
       data: {
         name: "Ama Cafe",
         photos: ["url1", "url2"],
-        location:
-          "House No. 6, 1st Floor, Majnu-ka-tilla, New Aruna Nagar, New Delhi",
-        menu: "pdf url",
-        contactId: contact3.id,
+      
       },
     });
 

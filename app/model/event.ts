@@ -1,5 +1,4 @@
 import { db } from "~/services/db.server";
-import type { metaType } from "./meta";
 
 export type eventType = {
   id: string;
@@ -7,17 +6,18 @@ export type eventType = {
   description?: string;
   poster: string[];
   venue?: string;
-  date?: Date;
+  area?: string;
   city?: string;
+  state?: string;
+  date?: Date;
+  duration?: string;
   registerUrl?: string;
-  meta?: metaType;
-  metaId?: number;
 };
 
 
 export async function getEvents() {
   try {
-    const res = db.event.findMany();
+    const res = await db.event.findMany();
     return res;
   } catch (e) {
     console.log(e);
@@ -34,7 +34,7 @@ export async function getEvent(title: string) {
   }
  }
 
-export async function createEvent(title,description,city,venue,date,registerUrl,imageUrl) {
+export async function createEvent(title,description,city,venue,date,registerUrl,imageUrl,area,state,duration) {
   try {
     const res = db.event.create({
       data: {
@@ -44,7 +44,10 @@ export async function createEvent(title,description,city,venue,date,registerUrl,
         registerUrl,
         date:date,
         venue,
-        poster:imageUrl
+        poster: imageUrl,
+        area,
+        state,
+        duration
       }
     })
     return res;

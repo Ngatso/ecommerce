@@ -19,8 +19,7 @@ export const loader = async ({request}:LoaderArgs)=>{
 export const action = async ({request}:ActionArgs) => {
   let formData = await request.formData();
   if (request.method === 'POST') {
-    let { title, venue, date, registerUrl, city, description,imageUrl } = Object.fromEntries(formData);
-  
+    let { title, venue, date, registerUrl, city, description,imageUrl,area,state,duration } = Object.fromEntries(formData);
     let res = await createEvent(
       title,
       description,
@@ -28,7 +27,10 @@ export const action = async ({request}:ActionArgs) => {
       venue,
       new Date(date),
       registerUrl,
-      imageUrl
+      imageUrl,
+      area,
+      state,
+      duration
     );
   }
   if (request.method === 'DELETE') {
@@ -76,6 +78,9 @@ export default function Events() {
             <th scope="col" className="px-4 py-3 min-w-[6rem]">
               Date
             </th>
+            <th scope="col" className="px-4 py-3 min-w-[12rem]">
+              duration
+            </th>
             <th scope="col" className="px-4 py-3 min-w-[7rem]">
               RegisterUrl
             </th>
@@ -84,6 +89,9 @@ export default function Events() {
             </th>
             <th scope="col" className="px-4 py-3 min-w-[12rem]">
               poster
+            </th>
+            <th scope="col" className="px-4 py-3 min-w-[12rem]">
+              address
             </th>
             <th scope="col" className="px-4 py-3">
               operations
@@ -131,6 +139,10 @@ function Event({ event, date }: any) {
         {date.toLocaleString("en-US", {})}
       </td>
       <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+        {event.duration}
+      </td>
+
+      <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
         {event.registerUrl}
       </td>
       <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -139,13 +151,16 @@ function Event({ event, date }: any) {
       <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
         {event.poster}
       </td>
+      <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+        {event.area} {event.state}
+      </td>
       <td>
         <button
-          disabled={deleteFetcher.formMethod==='DELETE'}
+          disabled={deleteFetcher.formMethod === "DELETE"}
           className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
           onClick={() => handleRemove(event.id)}
         >
-          {deleteFetcher.formMethod === 'DELETE' ? "removing" : "remove"}
+          {deleteFetcher.formMethod === "DELETE" ? "removing" : "remove"}
         </button>
       </td>
     </tr>
@@ -228,12 +243,27 @@ function EventForm({close}: {close:()=>void}) {
                   htmlFor="date"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Date
+                  Date -from
                 </label>
                 <input
                   type="datetime-local"
                   name="date"
                   id="date"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="duration"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Duration -to
+                </label>
+                <input
+                  type="time"
+                  name="duration"
+                  id="duration"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required
                 />
@@ -253,6 +283,22 @@ function EventForm({close}: {close:()=>void}) {
                   required
                 />
               </div>
+
+              <div>
+                <label
+                  htmlFor="area"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Area
+                </label>
+                <input
+                  name="area"
+                  id="area"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="area"
+                  required
+                />
+              </div>
               <div>
                 <label
                   htmlFor="city"
@@ -260,13 +306,32 @@ function EventForm({close}: {close:()=>void}) {
                 >
                   City
                 </label>
-                <input
+                <select
                   name="city"
                   id="city"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="city"
                   required
-                />
+                >
+                  <option className="capitalize">delhi</option>
+                  <option className="capitalize">dharamsala</option>
+                </select>
+              </div>
+              <div>
+                <label
+                  htmlFor="state"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  state
+                </label>
+                <select
+                  name="state"
+                  id="state"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  required
+                >
+                  <option className="capitalize">Himachal Pradesh</option>
+                  <option className="capitalize">Delhi</option>
+                </select>
               </div>
               <div className="sm:col-span-2">
                 <label
@@ -280,7 +345,9 @@ function EventForm({close}: {close:()=>void}) {
                     className="mb-4 w-20 h-20 rounded-full sm:mr-4 sm:mb-0"
                     ref={imageRef}
                     src={imageUrl}
-                    onError={e=>e.target.src="https://via.placeholder.com/150"}
+                    onError={(e) =>
+                      (e.target.src = "https://via.placeholder.com/150")
+                    }
                     alt="poster"
                   />
                   <div className="w-full">

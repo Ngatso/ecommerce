@@ -1,5 +1,5 @@
 import { LoaderFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData,Link } from "@remix-run/react";
 import { getRestaurants } from "~/model/restaurant";
 import type { restaurantType } from "~/model/restaurant";
 
@@ -26,24 +26,22 @@ export default function Monasteries() {
   );
 }
 function Restaurant({ restaurant }:{restaurant:restaurantType}) {
-  let { name, location, photos,city,meta } = restaurant;
+  let { name,thumbnail } = restaurant;
   return (
     <div className="max-w-xs flex flex-col justify-center">
       <div className="max-h-[245px] max-w-[360px] overflow-hidden">
         <img
-          className="w-full object-cover hover:scale-105 transition-all duration-500 ease-in-out rounded" 
-          src={
-            "https://images.squarespace-cdn.com/content/v1/60de2756bdea384623d3b191/1682875483861-B6G9PTY2CMDOVPITG8BB/20230120_190852.jpg?format=500w"
-          }
+          className="w-full object-cover hover:scale-105 transition-all duration-500 ease-in-out rounded"
+          src={thumbnail}
         />
       </div>
       <div className="text-lg text-center py-2 capitalize">{name}</div>
-      <button
-        type="button"
+      <Link
+        to={`/restaurant/${restaurant.name}`}
         className="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
       >
         Visit
-      </button>
+      </Link>
     </div>
   );
 }

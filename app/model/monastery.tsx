@@ -1,15 +1,25 @@
 import { db } from "~/services/db.server";
-import type { metaType } from "./meta";
 
 
 export type monasteryType = {
   id: string;
   name: string;
-  location?: string;
-  meta?: metaType;
-  metaId?: number;
+  description?: string;
+  area?: string;
   city?: string;
-  image: string[];
+  state?: string;
+  opening?: string;
+  contactPhone?: string;
+  contactEmail?: string;
+  website?: string;
+  parking?: string;
+  photos: string[];
+  thumbnail?: string;
+  latitude?: number;
+  longitude?: number;
+  lamaName?: string;
+  lamaPhoto?: string;
+  lamaDescription?: string;
 };
 
 export function getMonasteries() {
@@ -23,7 +33,7 @@ export function getMonasteries() {
 
 export function getMonastery(name: string) {
   try {
-    let monastery = db.monastery.findFirst({
+    let monastery = db.monastery.findUnique({
       where: {
         name,
       },

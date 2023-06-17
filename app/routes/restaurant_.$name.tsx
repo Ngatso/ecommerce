@@ -1,45 +1,41 @@
 import { LoaderArgs, LoaderFunction } from "@remix-run/node";
 import { useLoaderData, Link } from "@remix-run/react";
-import { getMonastery } from "~/model/monastery";
-import { useMemo,useEffect ,useState} from "react";
+import { getRestaurant } from "~/model/restaurant";
+import { useMemo, useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl/dist/mapbox-gl.js";
 import Lightbox from "yet-another-react-lightbox";
 export const loader: LoaderFunction = async ({
   request,
   params,
 }: LoaderArgs) => {
-    let monastery = await getMonastery(params.monasteryname);
-    let mapsApiKey = process.env.REACT_APP_MAP_API_KEY;
-    
-  return { monastery, mapsApiKey };
+  let restaurant = await getRestaurant(params.name);
+  let mapsApiKey = process.env.REACT_APP_MAP_API_KEY;
+  console.log(params.restaurantname)
+  return { restaurant, mapsApiKey };
 };
-export default function Events() {
-    let { monastery, mapsApiKey } = useLoaderData();
+export default function Restaurant() {
+  let { restaurant, mapsApiKey } = useLoaderData();
   function handleErrorImg(e: any) {
     e.target.onerror = null;
     e.target.src = "https://placehold.co/600x400";
-    }
-    const [lightBoxIndex, setlightBoxIndex] = useState(-1);
-    
-  useEffect(()=>{
-mapboxgl.accessToken = mapsApiKey;
-var map = new mapboxgl.Map({
-  container: "mapdiv",
-  style: "mapbox://styles/mapbox/streets-v11",
-  center: [-74.5, 40], // starting position [lng, lat]
-  zoom: 9, // starting zoom
-});
-  },[])
-let images = [
-  "https://images.squarespace-cdn.com/content/v1/60de2756bdea384623d3b191/479e6269-8a3f-45ce-a17a-a01a61de43da/2.jpg?format=500w",
-  "https://images.squarespace-cdn.com/content/v1/60de2756bdea384623d3b191/1fd7d3af-2d21-43da-9083-c3b2619965bd/3.jpg?format=500w",
-  "https://images.squarespace-cdn.com/content/v1/60de2756bdea384623d3b191/820c4095-e4fe-43ba-b002-1602ce0c2a8e/1.jpg?format=500w",
-    ];
-    let LightBoxSrc = useMemo(() => {
-      return images.map((str, index) => {
-        return { src: images[index] };
-      });
-    }, [images]);
+  }
+  const [lightBoxIndex, setlightBoxIndex] = useState(-1);
+
+  useEffect(() => {
+    mapboxgl.accessToken = mapsApiKey;
+    var map = new mapboxgl.Map({
+      container: "mapdiv",
+      style: "mapbox://styles/mapbox/streets-v11",
+      center: [restaurant.longitude, restaurant.latitude], // starting position [lng, lat]
+      zoom: 9, // starting zoom
+    });
+  }, []);
+  let images = restaurant.photos;
+  let LightBoxSrc = useMemo(() => {
+    return images.map((str, index) => {
+      return { src: images[index] };
+    });
+  }, [images]);
   return (
     <section style={{ paddingInline: "2vw", paddingBlock: "3vw" }}>
       <div className="flex flex-col md:flex-row justify-between">
@@ -53,22 +49,19 @@ let images = [
               marginBottom: 32,
             }}
           >
-            {monastery.name}
+            {restaurant.name}
           </h3>
           <p className="capitalize" style={{ marginBottom: 18, fontSize: 18 }}>
-            address: {monastery.location} {monastery.city}
+            address: {restaurant.area} {restaurant.city} {restaurant.state}{" "}
           </p>
           <p className="capitalize" style={{ marginBottom: 18, fontSize: 18 }}>
-            visit hours: 12:00pm - 4:00pm
+            visit hours: {restaurant.opening}
           </p>
           <p className="capitalize" style={{ marginBottom: 18, fontSize: 18 }}>
-            contact:423424234234234234
+            contact: {restaurant.contact_phone}
           </p>
           <p className="capitalize" style={{ marginBottom: 18, fontSize: 18 }}>
-            website: website.com
-          </p>
-          <p className="capitalize" style={{ marginBottom: 18, fontSize: 18 }}>
-            parking: On street parking
+            website: {restaurant.website}
           </p>
         </div>
         <div className="flex-1">
@@ -96,6 +89,12 @@ let images = [
         close={() => setlightBoxIndex(-1)}
         slides={LightBoxSrc}
       />
+      <div className="flex flex-col max-w-3xl m-auto "> 
+        {restaurant.menu_link.map((link) => {
+          return <img key={link} src={link} alt="menu" />
+      })}
+      </div>
     </section>
   );
 }
+

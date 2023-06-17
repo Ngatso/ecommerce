@@ -67,11 +67,14 @@ export default function Restaurants() {
             <th scope="col" className="px-4 py-3 min-w-[14rem]">
               Name
             </th>
-            <th scope="col" className="px-4 py-3 min-w-[10rem]">
-              location
+            <th scope="col" className="px-4 py-3 min-w-[7rem]">
+              area
             </th>
             <th scope="col" className="px-4 py-3 min-w-[7rem]">
               city
+            </th>
+            <th scope="col" className="px-4 py-3 min-w-[10rem]">
+              state
             </th>
             <th scope="col" className="px-4 py-3 min-w-[6rem]">
               menu
@@ -85,13 +88,7 @@ export default function Restaurants() {
           </tr>
         </thead>
         {restaurants.map((restaurant: restaurantType) => {
-          return (
-            <Restaurant
-              restaurant={restaurant}
-              key={restaurant.id}
-              
-            />
-          );
+          return <Restaurant restaurant={restaurant} key={restaurant.id} />;
         })}
       </table>
     </div>
@@ -123,6 +120,9 @@ function Restaurant({
         {restaurant.name}
       </th>
       <td className="px-4 py-3">{restaurant.location}</td>
+      <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+        {restaurant.area}
+      </td>
       <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
         {restaurant.city}
       </td>

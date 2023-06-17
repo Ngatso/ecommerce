@@ -2,7 +2,7 @@ import { LoaderArgs, LoaderFunction } from "@remix-run/node";
 import { useLoaderData,Link } from "@remix-run/react";
 import { getEvent } from "~/model/event";
 export const loader:LoaderFunction = async ({ request, params }:LoaderArgs) => {
-    let event = await getEvent(params.eventname);
+    let event = await getEvent(params.name);
     return event
  }
 export default function Events() { 
@@ -18,7 +18,7 @@ export default function Events() {
     minute: "numeric",
     hour12: true,
   });
-    
+  
     return (
       <section style={{ paddingInline: "3vw", paddingBlock: "2vw" }}>
         <Link to="/events" className="backLink p-3 mb-12">
@@ -30,8 +30,14 @@ export default function Events() {
               {event.title}
             </h2>
             <div>{readabledata.toDateString()}</div>
-            <div className="mb-3">{convertedTime}</div>
-            <div>{event.venue}</div>
+            <div className="mb-3 uppercase">
+              {convertedTime}-{convertDuration(event.duration)}
+            </div>
+            <div className="capitalize">venue : {event.venue}</div>
+            <div className="capitalize mb-3">
+            <p>{event?.city},</p>
+            <p>{event?.area},{event?.state}</p>
+            </div>
             <p>{event.description}</p>
           </div>
           <div className="flex-1">
@@ -46,4 +52,22 @@ export default function Events() {
         </div>
       </section>
     );
+}
+
+function convertDuration(duration: string) {
+  const inputTime = duration;
+  const [hours, minutes] = inputTime.split(":");
+  const time = new Date();
+  time.setHours(hours);
+  time.setMinutes(minutes);
+
+  const formattedTime = time.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
+  const convertedTime = formattedTime.replace(/(:\d{2}| [AP]M)$/,""
+  );
+
+  return convertedTime;
 }
