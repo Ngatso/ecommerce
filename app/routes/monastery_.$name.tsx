@@ -72,7 +72,7 @@ let images = monastery.photos
           <div id="mapdiv" style={{ width: "100%", height: 210 }}></div>
         </div>
       </div>
-      <div className="p-5 flex gap-4 flex-wrap">
+      <div className="grid p-5" >
         {images.map((imgsrc: string, index) => {
           return (
             <img
@@ -93,6 +93,24 @@ let images = monastery.photos
         close={() => setlightBoxIndex(-1)}
         slides={LightBoxSrc}
       />
+      {monastery.lama_name && (
+        <div
+          id="lama-section "
+          className="flex flex-col gap-3 md:flex-row max-w-5xl m-auto"
+        >
+          <div className="flex-1">
+            <img
+              src={monastery.lama_photo}
+              alt="Lama Photo"
+              className="w-full hover:scale-105  transition-all duration-500 ease-in-out object-cover   h-full"
+            />
+          </div>
+          <div className="flex-1 md:ml-20">
+            <h3 className=" text-3xl mb-3">{monastery.lama_name}</h3>
+            <p>{monastery.lama_description}</p>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
