@@ -12,7 +12,12 @@ export default function Events() {
         e.target.onerror = null;
         e.target.src = "https://placehold.co/600x400";
     }
-            let readabledata = new Date(event.date);
+  let readabledata = new Date(event.date);
+  var convertedTime = readabledata.toLocaleString("en-US", {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  });
     
     return (
       <section style={{ paddingInline: "3vw", paddingBlock: "2vw" }}>
@@ -21,11 +26,11 @@ export default function Events() {
         </Link>
         <div className="flex flex-col md:flex-row gap-3 justify-start max-w-5xl mx-auto">
           <div className="flex flex-col flex-1">
-            <h2 className="text-2xl  mb-2 p-2" style={{ wordSpacing: "3px" }}>
+            <h2 className="text-2xl  my-2 " style={{ wordSpacing: "3px" }}>
               {event.title}
             </h2>
             <div>{readabledata.toDateString()}</div>
-            <div className="mb-3">{readabledata.toTimeString()}</div>
+            <div className="mb-3">{convertedTime}</div>
             <div>{event.venue}</div>
             <p>{event.description}</p>
           </div>

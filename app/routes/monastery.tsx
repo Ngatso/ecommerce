@@ -1,13 +1,13 @@
 import { LoaderFunction } from "@remix-run/node";
-import { getMonastery, getMonasteryByCity } from "~/model/monastery";
-import { useLoaderData } from "@remix-run/react";
+import { getMonasteries, getMonasteryByCity } from "~/model/monastery";
+import { useLoaderData ,Link} from "@remix-run/react";
 export const loader: LoaderFunction = async ({ request, params }) => {
   let city = params.city as string;
   let monastery;
   if (city) {
     monastery = await getMonasteryByCity(city);
   } else {
-    monastery = await getMonastery();
+    monastery = await getMonasteries();
   }
   return { monastery };
 };
@@ -15,12 +15,12 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 export default function Monasteries() {
   let { monastery } = useLoaderData();
   return (
-    <section>
-      <h1 className="text-3xl font-bold text-center my-3">
+    <section style={{paddingInline:'2vw'}}>
+      <h1 className="text-xl container my-3" style={{wordSpacing:'5px',marginBottom:36}}>
         {" "}
         TIBETAN BUDDHIST MONASTERIES
       </h1>
-      <p className="max-w-xl text-center mx-auto">
+      <p className="font-minion " style={{fontSize:18}}>
         The essence of Tibetan Buddhism is about controlling & mastering one’s
         inner emotions. As the materialistic world pays too much heed to the
         outer and physical development, there is often a negligence in the care
@@ -50,12 +50,12 @@ function Monastery({ monastery }) {
         />
       </div>
       <div className="text-lg text-center py-2 capitalize">{name}</div>
-      <button
-        type="button"
+      <Link
+        to={"/monastery/"+name}
         className="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
       >
         Visit
-      </button>
+      </Link>
     </div>
   );
 }

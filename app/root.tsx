@@ -19,6 +19,7 @@ import {
 } from "@remix-run/react";
 import stylesheet from "~/style/tailwind.css";
 import globalsheet from "~/style/global.css";
+import lightBoxsheet from "yet-another-react-lightbox/styles.css";
 import Header from "./layout/Header";
 import { createSupabaseClient } from "./services/supabase.server";
 import { createBrowserClient } from "@supabase/auth-helpers-remix";
@@ -30,6 +31,7 @@ export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
   { rel: "stylesheet", href: stylesheet },
   { rel: "stylesheet", href: globalsheet },
+  { rel: "stylesheet", href: lightBoxsheet },
   {
     rel: "icon",
     href: "/favicon-light.png",
@@ -117,6 +119,10 @@ export default function App() {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <link
+          href="https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css"
+          rel="stylesheet"
+        />
         <Meta />
         <Links />
       </head>
@@ -128,7 +134,7 @@ export default function App() {
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
-        </body>
+      </body>
     </html>
   );
 }

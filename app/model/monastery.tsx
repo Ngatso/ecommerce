@@ -12,7 +12,7 @@ export type monasteryType = {
   image: string[];
 };
 
-export function getMonastery() {
+export function getMonasteries() {
   try {
     let monastery = db.monastery.findMany();
     return monastery;
@@ -20,6 +20,20 @@ export function getMonastery() {
     console.log(e);
   }
 }
+
+export function getMonastery(name: string) {
+  try {
+    let monastery = db.monastery.findFirst({
+      where: {
+        name,
+      },
+    });
+    return monastery;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 
 export function getMonasteryByCity(city: string) {
   try {

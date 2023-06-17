@@ -59,7 +59,7 @@ model event {
 
 model monastery {
   id        String   @id @unique @default(uuid())
-  name      String
+  name      String   @unique
   location  String?
   meta   meta?  @relation(fields: [metaId], references: [id])
   metaId Int?
@@ -69,7 +69,7 @@ model monastery {
 
 model restaurant {
   id        String   @id @unique @default(uuid())
-  name      String
+  name      String   @unique
   photos    String[]
   location  String?
   city      String?
