@@ -37,7 +37,7 @@ export default function Restaurant() {
     });
   }, [images]);
   return (
-    <section style={{ paddingInline: "2vw", paddingBlock: "3vw" }}>
+    <section style={{ paddingInline: "2vw", paddingBlock: "3vw" }} className='max-w-6xl mx-auto'>
       <div className="flex flex-col md:flex-row justify-between">
         <div className="flex-1">
           <h3

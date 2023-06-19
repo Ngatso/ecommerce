@@ -38,14 +38,16 @@ let images = monastery.photos
       });
     }, [images]);
   return (
-    <section style={{ paddingInline: "2vw", paddingBlock: "3vw" }}>
+    <section
+      style={{ paddingInline: "2vw", paddingBlock: "3vw" }}
+      className="max-w-6xl mx-auto"
+    >
       <div className="flex flex-col md:flex-row justify-between">
         <div className="flex-1">
           <h3
-            className="capitalize"
+            className="capitalize sectionTitle"
             style={{
               letterSpacing: "0.64px",
-              fontSize: "33px",
               fontFamily: "caslon",
               marginBottom: 32,
             }}
@@ -72,7 +74,7 @@ let images = monastery.photos
           <div id="mapdiv" style={{ width: "100%", height: 210 }}></div>
         </div>
       </div>
-      <div className="grid p-5" >
+      <div className="grid p-5">
         {images.map((imgsrc: string, index) => {
           return (
             <img

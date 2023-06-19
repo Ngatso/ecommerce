@@ -35,7 +35,7 @@ export default function Header({ user, supabase }:headerType) {
   }
   return (
     <header
-      className=" shadow-md sticky top-0 transition-all z-10 bg-white border-y border-gray-200 dark:bg-gray-700 dark:border-gray-600"
+      className="  sticky top-0 transition-all z-10 bg-white  dark:bg-gray-700 dark:border-gray-600"
       style={{ height: 110, fontSize: 24 }}
     >
       <nav className="relative flex justify-between h-full gap-10">
