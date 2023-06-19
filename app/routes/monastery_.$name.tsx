@@ -25,11 +25,32 @@ export default function Monastery() {
 mapboxgl.accessToken = mapsApiKey;
 var map = new mapboxgl.Map({
   container: "mapdiv",
-  style: "mapbox://styles/mapbox/streets-v11",
-  center: [monastery.longitude,monastery.latitude], // starting position [lng, lat]
+  style: "mapbox://styles/mapbox/streets-v12",
+  center: [monastery.longitude, monastery.latitude], // starting position [lng, lat]
   zoom: 9, // starting zoom
 });
-    
+
+let marker = {
+  properties: {
+    message: monastery.name,
+    iconSize: [60, 60],
+  },
+};
+ const el = document.createElement("div");
+ const width = marker.properties.iconSize[0];
+ const height = marker.properties.iconSize[1];
+ el.className = "marker";
+ el.style.backgroundImage = `url(/mark.png)`;
+ el.style.width = `${width}px`;
+ el.style.height = `${height}px`;
+ el.style.backgroundSize = "100%";
+
+ el.addEventListener("click", () => {
+   window.alert(marker.properties.message);
+ });
+    new mapboxgl.Marker(el)
+      .setLngLat([monastery.longitude, monastery.latitude])
+      .addTo(map);
   },[])
 let images = monastery.photos
     let LightBoxSrc = useMemo(() => {
