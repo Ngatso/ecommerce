@@ -43,3 +43,7 @@ body {
 .sectionTitle{
   font-size: calc((3.2 - 1) * 1.2vw + 1rem);
 }
+.highlightSection{
+  padding-top: calc(12vmax / 10);
+padding-bottom: calc(12vmax / 10);
+}

@@ -2,6 +2,7 @@ import { LoaderFunction } from "@remix-run/node";
 import { getMonasteries, getMonasteryByCity } from "~/model/monastery";
 import { useLoaderData ,Link} from "@remix-run/react";
 import { City } from "@prisma/client";
+import HighlightSection from "~/component/UI/HighlightSection";
 export const loader: LoaderFunction = async ({ request, params }) => {
   const url = new URL(request.url);
   const city = url.searchParams.get("city") as City;
@@ -17,29 +18,37 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 export default function Monasteries() {
   let { monastery,city } = useLoaderData();
   return (
-    <section style={{ paddingInline: "2vw" }}>
-      <h1
-        className="text-xl container my-3"
-        style={{ wordSpacing: "5px", marginBottom: 36 }}
+    <>
+      <HighlightSection name={city} />
+      <section
+        className="my-0"
+        style={{ paddingInline: "2vw", paddingBlock: "calc(12vmax / 10)",marginInline:'4vw' }}
       >
-        {" "}
-        TIBETAN BUDDHIST MONASTERIES IN <span className="uppercase">{city}</span>
-      </h1>
-      <p className="font-minion " style={{ fontSize: 18 }}>
-        The essence of Tibetan Buddhism is about controlling & mastering one’s
-        inner emotions. As the materialistic world pays too much heed to the
-        outer and physical development, there is often a negligence in the care
-        and growth of inner values, also called emotional hygiene, which is
-        equally and sometimes more important. Tibetan Buddhism has an immense
-        depth of knowledge to offer towards emotional well being. This page
-        includes all the Tibetan Monasteries in the India.
-      </p>
-      <div className="flex flex-wrap gap-3 max-w-5xl mt-10 mx-auto">
-        {monastery.map((monastery) => (
-          <Monastery monastery={monastery} key={monastery.id} />
-        ))}
-      </div>
-    </section>
+        <h1
+          className="text-xl container my-3"
+          style={{ wordSpacing: "5px", marginBottom: 36 }}
+        >
+          {" "}
+          TIBETAN BUDDHIST MONASTERIES IN{" "}
+          <span className="uppercase">{city}</span>
+        </h1>
+        <p className="font-minion " style={{ fontSize: 18 }}>
+          The essence of Tibetan Buddhism is about controlling & mastering one’s
+          inner emotions. As the materialistic world pays too much heed to the
+          outer and physical development, there is often a negligence in the
+          care and growth of inner values, also called emotional hygiene, which
+          is equally and sometimes more important. Tibetan Buddhism has an
+          immense depth of knowledge to offer towards emotional well being. This
+          page includes all the Tibetan Monasteries in the India.
+        </p>
+        <div className="flex flex-wrap gap-3 max-w-5xl mt-10 mx-auto">
+          {monastery.length <= 0 && <div className="flex justify-center item-center text-3xl">Coming soon</div>}
+          {monastery.map((monastery) => (
+            <Monastery monastery={monastery} key={monastery.id} />
+          ))}
+        </div>
+      </section>
+    </>
   );
 }
 function Monastery({ monastery }) {

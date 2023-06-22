@@ -1,6 +1,7 @@
 import { City } from "@prisma/client";
 import { LoaderFunction } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData,useLocation } from "@remix-run/react";
+import HighlightSection from "~/component/UI/HighlightSection";
 import { getEvents, getEventsByCity } from "~/model/event";
 export const loader: LoaderFunction = async ({ request }) => {
     const url = new URL(request.url);
@@ -18,29 +19,39 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function Events() {
-  const { events,city } = useLoaderData();
+  const { events, city } = useLoaderData();
+  const location = useLocation();
   return (
-    <section>
-      <div className="text-center">
-        <p className="mb-10" style={{whiteSpace:"pre-wrap"}}>
-          Click -&gt;
-                 <Link to="/events/form" prefetch="intent">
+    <>
+      <HighlightSection name={city} />
+      <section>
+        <div className="text-center" style={{ paddingTop: "calc(10vmax / 5)" }}>
+          <p className="mb-10" style={{ whiteSpace: "pre-wrap" }}>
+            Click -&gt;
+            <Link to="/events/form" prefetch="intent">
+              <strong>
+                <em>here</em>
+              </strong>
+            </Link>
             <strong>
-              <em>here</em>
+              <em>&lt;-</em>
             </strong>
-                  </Link>
-          <strong>
-            <em>&lt;-</em>
-          </strong>
-          &nbsp;to feature your event for free.
-        </p>
-      </div>
-      <div className="flex flex-col gap-3 justify-center  mx-10">
-        {events.map((event) => (
-          <Event event={event} key={event.id} />
-        ))}
-      </div>
-    </section>
+            &nbsp;to feature your event for free.
+          </p>
+        </div>
+        <div className="flex flex-col gap-3 justify-center  mx-10">
+          {events.length <= 0 && (
+            <div className="flex justify-center item-center text-3xl">
+              Coming soon
+            </div>
+          )}
+
+          {events.map((event) => (
+            <Event event={event} key={event.id} />
+          ))}
+        </div>
+      </section>
+    </>
   );
 }
 
