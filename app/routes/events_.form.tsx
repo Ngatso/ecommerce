@@ -47,13 +47,13 @@ export default function AddEvent() {
   const [imageUrl, setImageUrl] = useState('');
   async function handleImage(e) {
     let file = e.target.files[0];
-    const { data, error } = await supabase.storage
-      .from("image")
+    const { data, error} = await supabase.storage
+      .from("images")
       .upload(uuidv4(), file);
     if (data) {
       let filename = data.path;
-     
-      let fileUrl = `https://fqudiggsyyiruawohnij.supabase.co/storage/v1/object/public/image/${filename}`;
+      let respond = await supabase.storage.from("images").getPublicUrl(filename);
+      let fileUrl=respond.data.publicUrl
       setImageUrl(fileUrl);
 
     }
@@ -221,12 +221,14 @@ export default function AddEvent() {
                   Upload Poster
                 </label>
                 <div className="items-center w-full sm:flex">
-                  <img
-                    className="mb-4 w-20 h-20 rounded-full sm:mr-4 sm:mb-0"
+                  {imageUrl!=='' && (
+                    <img
+                    className="mb-4 w-20 h-20 shadow sm:mr-4 sm:mb-0"
                     ref={imageRef}
                     src={imageUrl}
                     alt="poster"
-                  />
+                    />
+                  )}
                   <div className="w-full">
                     <input hidden value={imageUrl} name='imageUrl' readOnly/>
                     <input

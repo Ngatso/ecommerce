@@ -1,23 +1,41 @@
+import { City } from "@prisma/client";
 import { LoaderFunction } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
-import { getEvents } from "~/model/event";
+import { getEvents, getEventsByCity } from "~/model/event";
 export const loader: LoaderFunction = async ({ request }) => {
-  let events = await getEvents();
+    const url = new URL(request.url);
+  const city = url.searchParams.get("city") as City;
+  let events;
+  if (city) {
+  events = await getEventsByCity(city);
+  return { events ,city};
+    
+  } 
+    
+  events = await getEvents();
+  
   return { events };
 };
 
 export default function Events() {
-  const { events } = useLoaderData();
+  const { events,city } = useLoaderData();
   return (
     <section>
-      <center className="py-3">
-        Click{" "}
-        <Link to="/events/form" prefetch="intent">
-          -here-
-        </Link>
-        to feature your event for free.
-      </center>
-      <div className="flex flex-col gap-3 justify-center max-w-5xl mx-auto">
+      <div className="text-center">
+        <p className="mb-10" style={{whiteSpace:"pre-wrap"}}>
+          Click -&gt;
+                 <Link to="/events/form" prefetch="intent">
+            <strong>
+              <em>here</em>
+            </strong>
+                  </Link>
+          <strong>
+            <em>&lt;-</em>
+          </strong>
+          &nbsp;to feature your event for free.
+        </p>
+      </div>
+      <div className="flex flex-col gap-3 justify-center  mx-10">
         {events.map((event) => (
           <Event event={event} key={event.id} />
         ))}
@@ -46,15 +64,14 @@ const timeString = readabledata.toLocaleTimeString("en-US", options);
   }
   let imgsrc = addHttp(poster[0]);
   return (
-    <div className="flex  mb-4 gap-3">
+    <div className="flex  flex-col md:flex-row mb-4 gap-3">
       <div className="relative">
         <Link to={`/events/${title}`}>
           <img
             src={imgsrc}
             alt="Event Images"
             onError={handleErrorImg}
-            style={{ width: "45vw" }}
-            className="hover:scale-105  transition-all duration-500 ease-in-out object-cover   h-full"
+            className="object-fit max-h-[285px] hover:scale-105 w-full md:w-[45vw]  transition-all duration-500 ease-in-out object-cover   h-full"
           />
         </Link>
         <div

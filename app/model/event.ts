@@ -1,3 +1,4 @@
+import { City } from "@prisma/client";
 import { db } from "~/services/db.server";
 
 export type eventType = {
@@ -15,6 +16,7 @@ export type eventType = {
 };
 
 
+
 export async function getEvents() {
   try {
     const res = await db.event.findMany();
@@ -23,6 +25,18 @@ export async function getEvents() {
     console.log(e);
   }
 }
+
+export async function getEventsByCity(city:City) {
+  try {
+    const res = await db.event.findMany({
+      where:{city}
+    });
+    return res;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 export async function getEvent(title: string) {
   try {
     const res = db.event.findUnique({

@@ -1,26 +1,31 @@
 import { LoaderFunction } from "@remix-run/node";
 import { getMonasteries, getMonasteryByCity } from "~/model/monastery";
 import { useLoaderData ,Link} from "@remix-run/react";
+import { City } from "@prisma/client";
 export const loader: LoaderFunction = async ({ request, params }) => {
-  let city = params.city as string;
+  const url = new URL(request.url);
+  const city = url.searchParams.get("city") as City;
   let monastery;
   if (city) {
     monastery = await getMonasteryByCity(city);
-  } else {
-    monastery = await getMonasteries();
+    return { monastery,city };
   }
+  monastery = await getMonasteries();
   return { monastery };
 };
 
 export default function Monasteries() {
-  let { monastery } = useLoaderData();
+  let { monastery,city } = useLoaderData();
   return (
-    <section style={{paddingInline:'2vw'}}>
-      <h1 className="text-xl container my-3" style={{wordSpacing:'5px',marginBottom:36}}>
+    <section style={{ paddingInline: "2vw" }}>
+      <h1
+        className="text-xl container my-3"
+        style={{ wordSpacing: "5px", marginBottom: 36 }}
+      >
         {" "}
-        TIBETAN BUDDHIST MONASTERIES
+        TIBETAN BUDDHIST MONASTERIES IN <span className="uppercase">{city}</span>
       </h1>
-      <p className="font-minion " style={{fontSize:18}}>
+      <p className="font-minion " style={{ fontSize: 18 }}>
         The essence of Tibetan Buddhism is about controlling & mastering one’s
         inner emotions. As the materialistic world pays too much heed to the
         outer and physical development, there is often a negligence in the care

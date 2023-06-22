@@ -1,12 +1,12 @@
 import { db } from "~/services/db.server";
-
+import { City } from "@prisma/client";
 
 export type monasteryType = {
   id: string;
   name: string;
   description?: string;
   area?: string;
-  city?: string;
+  city?: City;
   state?: string;
   opening?: string;
   contactPhone?: string;
@@ -45,7 +45,7 @@ export function getMonastery(name: string) {
 }
 
 
-export function getMonasteryByCity(city: string) {
+export function getMonasteryByCity(city: City) {
   try {
     let monastery = db.monastery.findMany({
       where: {

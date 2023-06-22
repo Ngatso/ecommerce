@@ -28,7 +28,7 @@ model event {
   poster      String[]
   venue       String?
   area        String?
-  city        String?
+  city          City?  @default(Dharamshala)
   state       String?
   date        DateTime?
   duration    String?
@@ -40,7 +40,7 @@ model monastery {
   name          String   @unique
   description   String?
   area          String?
-  city          String?
+    city          City?  @default(Dharamshala)
   state         String?
   opening       String?
   contact_phone String?
@@ -67,10 +67,15 @@ model restaurant {
   thumbnail     String?
   photos        String[]
   area          String?
-  city          String?
+  city          City?  @default(Dharamshala)
   state         String?
   menu_link     String[]
   website       String?
   latitude      Float?
   longitude     Float?
+}
+
+enum City{
+  Dharamshala
+  Delhi
 }

@@ -1,24 +1,34 @@
+import { City,restaurant } from "@prisma/client";
 import { LoaderFunction } from "@remix-run/node";
 import { useLoaderData,Link } from "@remix-run/react";
-import { getRestaurants } from "~/model/restaurant";
+import { getRestaurants, getRestuarantsByCity } from "~/model/restaurant";
 import type { restaurantType } from "~/model/restaurant";
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-  let restaurants: restaurantType[] = await getRestaurants();
+      const url = new URL(request.url);
+  const city = url.searchParams.get("city") as City;
+  let restaurants;
+  if (city) {
+  restaurants = await getRestuarantsByCity(city);
+  return { restaurants,city };
+  
+  } 
+    restaurants = await getRestaurants();
+  
   return { restaurants };
 };
 
-export default function Monasteries() {
-  let { restaurants } = useLoaderData() as ReturnType<typeof loader>;
+export default function restaurants() {
+  let { restaurants,city } = useLoaderData() as ReturnType<typeof loader>;
   return (
     <section>
       <h1 className="text-3xl font-bold text-center my-3">
         {" "}
-        TIBETAN RESTAURANTS
+        <span className="uppercase">{city}</span> TIBETAN RESTAURANTS
       </h1>
 
       <div className="flex flex-wrap gap-3 max-w-5xl mt-10 mx-auto">
-        {restaurants.map((restaurant:restaurantType) => (
+        {restaurants.map((restaurant: restaurantType) => (
           <Restaurant restaurant={restaurant} key={restaurant.id} />
         ))}
       </div>

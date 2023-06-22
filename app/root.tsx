@@ -27,8 +27,10 @@ import { useEffect, useState } from "react";
 import Footer from "./layout/Footer";
 import Sidebar from "./layout/Sidebar";
 import { checkUser } from "./model/user";
-export const links: LinksFunction = () => [
-  ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
+import { db } from "./services/db.server";
+let bumdle = cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : [];
+export const links = () => [
+  ...bumdle,
   { rel: "stylesheet", href: stylesheet },
   { rel: "stylesheet", href: globalsheet },
   { rel: "stylesheet", href: lightBoxsheet },
@@ -62,7 +64,6 @@ export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
   const response = new Response();
 
   const supabase = createSupabaseClient({ request, response });
-
   const {
     data: { session },
   } = await supabase.auth.getSession();

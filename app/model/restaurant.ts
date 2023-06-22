@@ -1,3 +1,4 @@
+import { City } from "@prisma/client";
 import { db } from "~/services/db.server";
 
 
@@ -12,7 +13,7 @@ export type restaurantType = {
   thumbnail?: string;
   photos: string[];
   area?: string;
-  city?: string;
+  city?: City;
   state?: string;
   menuLink?: string;
   website?: string;
@@ -41,7 +42,7 @@ export function getRestaurant(name:string) {
     return [];
   }
 }
-export function getRestuarantsByCity(city: string) {
+export function getRestuarantsByCity(city: City) {
   try {
     let restaurant = db.restaurant.findMany({
       where: {

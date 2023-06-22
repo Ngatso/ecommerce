@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Cart from "../component/UI/Cart";
 import type { profileType } from "~/model/user";
 import { SupabaseClient } from "@supabase/supabase-js";
+import { City } from "@prisma/client";
 
 type headerType = {
   user: profileType;
@@ -33,6 +34,7 @@ export default function Header({ user, supabase }:headerType) {
   if (error) {
     return <div className="bg-red-300">{error.message}</div>;
   }
+  let cityList=Object.keys(City);
   return (
     <header
       className="  sticky top-0 transition-all z-10 bg-white  dark:bg-gray-700 dark:border-gray-600"
@@ -90,7 +92,7 @@ export default function Header({ user, supabase }:headerType) {
                   <img
                     src="https://static1.squarespace.com/static/60de2756bdea384623d3b191/t/615d072ac39a1012f5cbde1e/1636730283619/output-onlinepngtools-3.png"
                     style={{ width: 22, objectFit: "contain", marginRight: 10 }}
-                  loading="lazy"
+                    loading="lazy"
                   />
                   <input
                     type="text"
@@ -150,8 +152,7 @@ export default function Header({ user, supabase }:headerType) {
                   ) : (
                     <Link
                       to="/auth/login"
-                        className="text-lg font-medium text-primary-600 dark:text-primary-500"
-                        
+                      className="text-lg font-medium text-primary-600 dark:text-primary-500"
                     >
                       Login
                     </Link>
@@ -242,20 +243,17 @@ export default function Header({ user, supabase }:headerType) {
       >
         <div className="p-3 flex justify-between gap-5 ml-5 h-full">
           <div className="flex flex-1 gap-8 ml-5 h-full">
-            <ul className="flex flex-col gap-4 w-fit text-base">
-              <h2 className="text-xl  font-extrabold">New Delhi</h2>
-              <Link to={"/events"}>Events</Link>
-              <Link to={"/monastery"}>Monasteries</Link>
-              <Link to={"/restaurant"}>Eats</Link>
-            </ul>
-            <ul className="flex ml-3 flex-col gap-4 text-base">
-              <h2 className="text-xl font-extrabold">Dharamsala</h2>
-              <li>Events</li>
-              <li>Monasteries</li>
-            </ul>
+            {cityList.map((city) => (
+              <ul className="flex flex-col gap-4 w-fit text-base" key={city}>
+                <h2 className="text-xl  font-extrabold">{city}</h2>
+                <Link to={`/events?city=${city}`}>Events</Link>
+                <Link to={`/monastery?city=${city}`}>Monasteries</Link>
+                <Link to={`/restaurant?city=${city}`}>Eats</Link>
+              </ul>
+            ))}
             <ul className="flex ml-3 flex-col gap-4 text-base">
               <h2 className="text-xl font-extrabold">Social</h2>
-              <li>Youtube</li>
+              <a href="https://www.youtube.com/@ngatso_us" target="_blank">Youtube</a>
               <li>Spotify</li>
             </ul>
             <ul className="flex ml-3 flex-col gap-4 text-base">
