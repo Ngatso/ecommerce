@@ -1,4 +1,4 @@
-import { City,restaurant } from "@prisma/client";
+import { City } from "@prisma/client";
 import { LoaderFunction } from "@remix-run/node";
 import { useLoaderData,Link } from "@remix-run/react";
 import { getRestaurants, getRestuarantsByCity } from "~/model/restaurant";

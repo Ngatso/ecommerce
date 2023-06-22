@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Cart from "../component/UI/Cart";
 import type { profileType } from "~/model/user";
 import { SupabaseClient } from "@supabase/supabase-js";
-import { City } from "@prisma/client";
+
 
 type headerType = {
   user: profileType;
@@ -34,7 +34,10 @@ export default function Header({ user, supabase }:headerType) {
   if (error) {
     return <div className="bg-red-300">{error.message}</div>;
   }
-  let cityList=Object.keys(City);
+  let cityList = [
+    "Dharamshala",
+    "Delhi",
+  ];
   return (
     <header
       className="  sticky top-0 transition-all z-10 bg-white  dark:bg-gray-700 dark:border-gray-600"
