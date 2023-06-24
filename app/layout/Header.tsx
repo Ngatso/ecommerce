@@ -1,9 +1,9 @@
-import { Link,  useNavigation } from "@remix-run/react";
-import { useState, useEffect } from "react";
+import { Link,  useNavigation, } from "@remix-run/react";
+import { useState, useEffect, } from "react";
 import Cart from "../component/UI/Cart";
 import type { profileType } from "~/model/user";
 import { SupabaseClient } from "@supabase/supabase-js";
-
+import CollapsibleComponent from "~/component/UI/Collapse";
 
 type headerType = {
   user: profileType;
@@ -12,6 +12,7 @@ type headerType = {
 
 export default function Header({ user, supabase }:headerType) {
   let error = null;
+  const [sidebarOpen,setSidebarOpen] = useState(false);
   const [menu1Open, setMenu1Open] = useState(false);
   const [menu2Open, setMenu2Open] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -170,26 +171,28 @@ export default function Header({ user, supabase }:headerType) {
         <div className="md:hidden flex justify-center items-center ">
           {" "}
           <button
-            data-drawer-target="logo-sidebar"
-            data-drawer-toggle="logo-sidebar"
-            aria-controls="logo-sidebar"
             type="button"
             className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            onClick={() => setSidebarOpen(!sidebarOpen)}
           >
             <span className="sr-only">Open sidebar</span>
-            <svg
-              className="w-6 h-6"
-              aria-hidden="true"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                clipRule="evenodd"
-                fillRule="evenodd"
-                d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
-              ></path>
-            </svg>
+            {!sidebarOpen ? (
+              <svg
+                className="w-6 h-6"
+                aria-hidden="true"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clipRule="evenodd"
+                  fillRule="evenodd"
+                  d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
+                ></path>
+              </svg>
+            ) : (
+              <div style={{ fontSize: 40 }}>x</div>
+            )}
           </button>
         </div>
       </nav>
@@ -256,7 +259,9 @@ export default function Header({ user, supabase }:headerType) {
             ))}
             <ul className="flex ml-3 flex-col gap-4 text-base">
               <h2 className="text-xl font-extrabold">Social</h2>
-              <a href="https://www.youtube.com/@ngatso_us" target="_blank">Youtube</a>
+              <a href="https://www.youtube.com/@ngatso_us" target="_blank">
+                Youtube
+              </a>
               <li>Spotify</li>
             </ul>
             <ul className="flex ml-3 flex-col gap-4 text-base">
@@ -271,6 +276,46 @@ export default function Header({ user, supabase }:headerType) {
           </div>
         </div>
       </div>
+      {sidebarOpen && <MobileMenu setIsOpen={ setSidebarOpen} />}
     </header>
+  );
+}
+
+
+function MobileMenu({ setIsOpen }) {
+
+  return (
+    <div
+      style={{ width: "100%", height: "100dvh" }}
+      className="bg-white absolute left-0 z-50 flex flex-col"
+    >
+      <CollapsibleComponent title="Community">
+        <ul className="flex flex-col gap-4 w-fit text-base">
+          <Link to={`/events`} onClick={() => setIsOpen(false)}>
+            Events
+          </Link>
+          <Link to={`/monastery`} onClick={() => setIsOpen(false)}>
+            Monasteries
+          </Link>
+          <Link to={`/restaurant`} onClick={() => setIsOpen(false)}>
+            Eats
+          </Link>
+        </ul>
+      </CollapsibleComponent>
+      <CollapsibleComponent title="Shop">
+        <ul className="flex flex-col gap-4 w-fit text-base">
+          <li>kids</li>
+          <li>Art Work</li>
+          <li>Clothing</li>
+          <li>Brand</li>
+        </ul>
+      </CollapsibleComponent>
+      <CollapsibleComponent title="Social">
+        <ul className="flex ml-3 flex-col gap-4 text-base">
+          <li>Youtube</li>
+          <li>Spotify</li>
+        </ul>
+      </CollapsibleComponent>
+    </div>
   );
 }
