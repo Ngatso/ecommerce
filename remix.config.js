@@ -1,7 +1,10 @@
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
   ignoredRouteFiles: ["**/.*"],
-  serverDependenciesToBundle: ["yet-another-react-lightbox"],
+  serverDependenciesToBundle: [
+    "yet-another-react-lightbox",
+    "mapbox-gl/dist/mapbox-gl.js",
+  ],
   tailwind: true,
   server:
     process.env.NETLIFY || process.env.NETLIFY_LOCAL

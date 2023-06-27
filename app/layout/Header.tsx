@@ -13,13 +13,11 @@ type headerType = {
 export default function Header({ user, supabase }:headerType) {
   let error = null;
   const [sidebarOpen,setSidebarOpen] = useState(false);
-  const [menu1Open, setMenu1Open] = useState(false);
   const [menu2Open, setMenu2Open] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const navigation = useNavigation();
  
   useEffect(() => {
-    setMenu1Open(false)
     setMenu2Open(false)
   }, [navigation.location?.pathname]);
 
@@ -52,26 +50,12 @@ export default function Header({ user, supabase }:headerType) {
           <div className="hidden md:flex items-center flex-1">
             <ul className="flex gap-4 mx-[50px]  text-sm font-medium ">
               <li
-                className="relative block  py-2 text-gray-800 hover:border-b-2"
-                onMouseEnter={() => {
-                  setMenu1Open(true);
-                  setMenu2Open(false);
-                }}
-                onClick={() => setMenu1Open((p) => !p)}
-                style={{
-                  fontSize: 18,
-                }}
-              >
-                Shop
-              </li>
-              <li
                 className="relative block  py-2 text-gray-800 hover:border-b-2 "
                 style={{
                   fontSize: 18,
                 }}
                 onMouseEnter={() => {
                   setMenu2Open(true);
-                  setMenu1Open(false);
                 }}
                 onClick={() => setMenu2Open((p) => !p)}
               >
@@ -197,48 +181,7 @@ export default function Header({ user, supabase }:headerType) {
         </div>
       </nav>
 
-      <div
-        onMouseLeave={() => setMenu1Open(false)}
-        style={{ height: 500 }}
-        className={`${
-          !menu1Open && "hidden"
-        } dropdown absolute top-[100%] left-0 right-0 w-full bg-white py-2 shadow-lg `}
-      >
-        <div className="p-3 flex justify-between gap-5 ml-5 h-full">
-          <div className="flex flex-1 gap-8 ml-5 h-full">
-            <ul className="flex flex-col gap-4 w-fit text-base">
-              <h2 className="text-xl  font-extrabold">Kids</h2>
-              <li>Storybook</li>
-              <li>Doll Accessories</li>
-              <li>Dolls</li>
-            </ul>
-            <ul className="flex ml-3 flex-col gap-4 text-base">
-              <h2 className="text-xl font-extrabold">Art Work</h2>
-              <li>Paper Sculpture</li>
-              <li>Print</li>
-              <li>Wall Hanging</li>
-            </ul>
-            <ul className="flex ml-3 flex-col gap-4 text-base">
-              <h2 className="text-xl font-extrabold">Clothing</h2>
-              <li>T-shirts</li>
-              <li>Jackets</li>
-              <li>Hat</li>
-              <li>Accessories</li>
-            </ul>
-            <ul className="flex ml-3 flex-col gap-4 text-base">
-              <h2 className="text-xl font-extrabold">Brand</h2>
-              <li>Men-Tsee-Khang</li>
-              <li>Tenzin Quilling</li>
-            </ul>
-          </div>
-          <div className="">
-            <img
-              className="w-[270px]"
-              src="https://images.squarespace-cdn.com/content/v1/60de2756bdea384623d3b191/55d94b2b-eee9-4719-97da-16de98604df1/sharWide.jpg?format=750w"
-            />
-          </div>
-        </div>
-      </div>
+   
 
       <div
         onMouseLeave={() => setMenu2Open(false)}

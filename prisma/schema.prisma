@@ -75,7 +75,19 @@ model restaurant {
   longitude     Float?
 }
 
+
 enum City{
   Dharamshala
   Delhi
 }
+
+// model youtube{
+//   id          String    @id @unique @default(uuid())
+//   title       String    @unique
+//   description String?
+//   thumbnail   String?
+//   channel_link String?
+//   video_count String?
+//   subscriber_count String?
+//   view_count String?
+// }

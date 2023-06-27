@@ -18,7 +18,7 @@ export default function Hero() {
           style={{ opacity: 1, zIndex: -1 }}
         >
           <source
-            src="https://static.videezy.com/system/resources/previews/000/034/316/original/P1170066_5.mp4"
+            src="https://assets.mixkit.co/videos/preview/mixkit-dj-playing-music-on-stage-4026-large.mp4"
             type="video/mp4"
           />
         </video>
@@ -34,15 +34,14 @@ export default function Hero() {
         />
         <div className="flex flex-col flex-1 justify-between py-4 items-center pt-4">
           <p className="text-white" style={{ fontSize: 18 }}>
-            Discover our exquisite collection of cotton coats, meticulously
-            crafted to adorn your style.
+            Unveiling the Moments: Your Gateway to Extraordinary Events!
           </p>
           <Link
-            to={"/Coat"}
+            to={"/events"}
             className="py-2 px-6 mt-8 bg-white rounded "
             type="button"
           >
-            Shop Summer Coat
+            Events
           </Link>
         </div>
       </div>

@@ -47,3 +47,21 @@ body {
   padding-top: calc(12vmax / 10);
 padding-bottom: calc(12vmax / 10);
 }
+.card{
+  position: relative;
+  overflow: hidden;
+}
+.card>.description{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  transition:all ease-in-out 0.3s;
+  height: 0;
+}
+.card:hover>.description{
+  height: 30%;
+  z-index: 2;
+  background-color: rgba(0,0,0,0.5);
+  color:white
+}
