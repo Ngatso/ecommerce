@@ -33,7 +33,7 @@ export default function Hero() {
           src="https://images.squarespace-cdn.com/content/v1/60de2756bdea384623d3b191/148d06ee-b724-4fb9-855d-993b4cf6b6a7/New+Arrivals.png?format=750w"
         />
         <div className="flex flex-col flex-1 justify-between py-4 items-center pt-4">
-          <p className="text-white" style={{ fontSize: 18 }}>
+          <p className="text-white font-caslon " style={{ fontSize: 18,wordSpacing:2, fontWeight:"bold" }}>
             Unveiling the Moments: Your Gateway to Extraordinary Events!
           </p>
           <Link
@@ -68,7 +68,7 @@ export default function Hero() {
           Ngatso comes in with the sole aim of preserving and promoting the rich
           and unique Tibetan cultural heritage. We provide platform for Tibetan
           manufacturers and artist from all across the world to sell their
-          products in United States and Canada.
+          products in Delhi and Dharamsala.
         </div>
       </div>
       <div className="flex">

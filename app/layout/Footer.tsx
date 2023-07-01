@@ -2,7 +2,7 @@ export default function Footer() {
   return (
     <footer className="bg-white dark:bg-gray-900 shadow">
       <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
-        <div className="md:flex md:justify-between">
+        <div className="md:flex justify-between gap-10">
           <div className="mb-6 md:mb-0">
             <a href="https://flowbite.com/" className="flex items-center">
               <img
@@ -15,7 +15,7 @@ export default function Footer() {
               </span>
             </a>
           </div>
-          <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
+          <div className="flex-1 flex gap-8 sm:gap-6 justify-around ">
             <div>
               <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
                 Resources

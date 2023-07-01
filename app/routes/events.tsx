@@ -73,7 +73,7 @@ const timeString = readabledata.toLocaleTimeString("en-US", options);
     e.target.onerror = null;
     e.target.src = "https://placehold.co/600x400";
   }
-  let imgsrc = addHttp(poster[0]);
+  let imgsrc = addHttp(poster);
   return (
     <div className="flex  flex-col md:flex-row mb-4 gap-3">
       <div className="relative">

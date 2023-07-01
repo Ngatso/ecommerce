@@ -17,28 +17,36 @@ export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
 
 export default function Index() {
   let { events } = useLoaderData();
-  console.log(events)
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
       <Hero />
-      
-      <div className='mx-3 flex flex-wrap gap-3'>
-      {
-        events?.map((event) => {
+      <div
+        style={{
+          paddingInline: "6vw",
+          paddingTop: "calc(10vmax / 10)",
+          paddingBottom: "calc(10vmax / 10)",
+        }}
+      >
+        <div className="uppercase flex w-full justify-center font-caslon text-center whitespace-pre-wrap" style={{padding:'17px !important'}}>
+          Explore latest events
+        </div>
+      </div>
+      <div className="mx-3 flex flex-wrap gap-3 justify-center" style={{marginBlock:'2vw'}}>
+        {events?.map((event) => {
           return (
-            <div
-              key={event.id}
-              className="card max-w-xs"
-            >
-              <img src={event.poster} className="w-full " />
+            <div key={event.id} className="card max-h-60 max-w-sm">
+              <img src={event.poster} className="w-full hover:scale-105 transition-all h-full object-cover" />
               <div className="description">
-                <div className="font-caslon">{event.title}</div>
-                <Link to={`/event/${event.title}`} className="uppercase p-1 rounded-sm">visit</Link>
+                <Link
+                  to={`/events/${event.title}`}
+                  className="uppercase flex-1 p-1 rounded-sm w-full text-center" 
+                >
+                  visit
+                </Link>
               </div>
             </div>
           );
-        })
-      }
+        })}
       </div>
     </div>
   );

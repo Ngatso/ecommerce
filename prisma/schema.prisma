@@ -25,7 +25,7 @@ model event {
   id          String    @id @unique @default(uuid())
   title       String    @unique
   description String?
-  poster      String[]
+  poster      String?
   venue       String?
   area        String?
   city          City?  @default(Dharamshala)

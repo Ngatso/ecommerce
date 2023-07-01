@@ -7,7 +7,7 @@ export const loader:LoaderFunction = async ({ request, params }:LoaderArgs) => {
  }
 export default function Events() { 
     let event = useLoaderData();
-    let imgsrc = event.poster[0];
+    let imgsrc = event.poster;
       function handleErrorImg(e: any) {
         e.target.onerror = null;
         e.target.src = "https://placehold.co/600x400";
