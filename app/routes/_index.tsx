@@ -1,4 +1,4 @@
-import { LoaderArgs, LoaderFunction, json } from "@remix-run/node";
+import { LoaderArgs, LoaderFunction, V2_MetaFunction, json } from "@remix-run/node";
 import { useLoaderData,Link } from "@remix-run/react";
 import Hero from "~/layout/Hero";
 import { eventType, getEvents } from "~/model/event";

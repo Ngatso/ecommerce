@@ -46,7 +46,7 @@ export const links = () => [
 ];
 export const meta: V2_MetaFunction = () => {
   return [
-    { title: "Tibetan Homemade Product" },
+    { title: "Tibetan Events" },
     {
       property: "og:title",
       content: "Tibetan Ecommerce",
