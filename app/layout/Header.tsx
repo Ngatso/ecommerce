@@ -202,9 +202,9 @@ export default function Header({ user, supabase }:headerType) {
             ))}
             <ul className="flex ml-3 flex-col gap-4 text-base">
               <h2 className="text-xl font-extrabold">Social</h2>
-              <a href="https://www.youtube.com/@ngatso_us" target="_blank">
+              <Link to={'/youtube'}>
                 Youtube
-              </a>
+              </Link>
               <li>Spotify</li>
             </ul>
             <ul className="flex ml-3 flex-col gap-4 text-base">
