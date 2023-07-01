@@ -1,7 +1,7 @@
 import { LoaderArgs, LoaderFunction, json } from "@remix-run/node";
 import { useLoaderData,Link } from "@remix-run/react";
 import Hero from "~/layout/Hero";
-import { getEvents } from "~/model/event";
+import { eventType, getEvents } from "~/model/event";
 export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
   const env = {
     SUPABASE_URL: process.env.SUPABASE_URL!,
@@ -32,7 +32,7 @@ export default function Index() {
         </div>
       </div>
       <div className="mx-3 flex flex-wrap gap-3 justify-center" style={{marginBlock:'2vw'}}>
-        {events?.map((event) => {
+        {events?.map((event:eventType) => {
           return (
             <div key={event.id} className="card max-h-60 max-w-sm">
               <img src={event.poster} className="w-full hover:scale-105 transition-all h-full object-cover" />

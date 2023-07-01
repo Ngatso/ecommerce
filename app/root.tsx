@@ -39,6 +39,10 @@ export const links = () => [
     href: "/favicon-light.png",
     type: "image/png",
   },
+  {
+    rel: "stylesheet",
+    href: "https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css",
+  },
 ];
 export const meta: V2_MetaFunction = () => {
   return [
@@ -51,6 +55,9 @@ export const meta: V2_MetaFunction = () => {
       name: "description",
       content: "This is best place to buy",
     },
+    { name: "viewport", content: "width=device-width,initial-scale=1" },
+    {charSet:"utf-8"}
+
   ];
 };
 export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
@@ -116,14 +123,8 @@ export default function App() {
   }, [serverAccessToken, supabase, refreshFetcher]);
   const isAdminPage =location.pathname.includes('admin')
   return (
-    <html lang="en">
+    <html>
       <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <link
-          href="https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css"
-          rel="stylesheet"
-        />
         <Meta />
         <Links />
       </head>

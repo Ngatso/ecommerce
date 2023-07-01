@@ -5,7 +5,7 @@ export type eventType = {
   id: string;
   title: string;
   description?: string;
-  poster: string[];
+  poster: string;
   venue?: string;
   area?: string;
   city?: string;
