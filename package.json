@@ -31,6 +31,7 @@
     "flowbite": "^1.6.5",
     "flowbite-react": "^0.4.7",
     "fslightbox-react": "^1.7.4",
+    "googleapis": "^120.0.0",
     "isbot": "^3.6.8",
     "mapbox-gl": "^2.15.0",
     "react": "^18.2.0",
