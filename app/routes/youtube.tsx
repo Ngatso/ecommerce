@@ -32,7 +32,7 @@ export default function YoutubeContainer() {
 
   return (<>
     <div className="flex justify-center mb-3 text-3xl font-bold font-minion">Detail of most popular Tibetan youtubers</div>
-    <div className="flex flex-col gap-2 shadow-sm justify-start items-start max-w-4xl mx-auto">
+    <div className="flex flex-col gap-2 p-4 shadow-sm justify-start items-start max-w-4xl mx-auto">
       {channelData.map((channel: any, index: number) => {
         return <Youtube key={channel.author + index} channelData={channel} />;
       })}
@@ -46,8 +46,8 @@ export default function YoutubeContainer() {
 function Youtube({channelData}:{channelData:any}) { 
     let joinDate = new Date(channelData.joinedDate);
     return (
-      <div className="flex gap-3  shadow-sm">
-        <div className="rounded overflow-hidden">
+      <div className="flex gap-3  shadow-sm hover:scale-110">
+        <div className="rounded overflow-hidden w-12">
           <picture>
             <source
               media="(min-width: 1200px)"
