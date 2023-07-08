@@ -6,25 +6,29 @@ export async function loader() {
     let API_KEY = process.env.GOOGLE_KEY;
     let channelUsername = [
       "UCj97pYy4kQXUjV43BIKHuPg",
-      "UCnz-ZXXER4jOvuED5trXfEA",
+      "UCxkBfsN4jEzPLqgJbUhjfew",
       "UCtYuU2viKSpaozL6vHgHo4g",
       "UCylPRuiFv-JPqTtiTJiDWtA",
+      "UCHOVTkkuLZkEQ_y_ewU3eOA",
     ];
     // let fetchUrl = `https://www.googleapis.com/youtube/v3/channels?part=id&forUsername=${channelUsername}&key=${API_KEY}`;
      const data = await Promise.all(
-    channelUsername.map(async (channel) => {
-      const payload = {
-        channelId: channel,
-        channelIdType: 0,
-      };
+       channelUsername
+         .map(async (channel) => {
+           const payload = {
+             channelId: channel,
+             channelIdType: 0,
+           };
 
-      const yt = await ytch.getChannelInfo(payload);
-      const stats = await ytch.getChannelStats(payload);
-      return { ...yt, ...stats };
-    })
-  );
+           const yt = await ytch.getChannelInfo(payload);
+           const stats = await ytch.getChannelStats(payload);
+           return { ...yt, ...stats };
+         })
+     );
      
-    return json({data});
+  return json({
+    data: data.sort((a, b) => b.viewCount - a.viewCount)
+    });
 }
 
 export default function YoutubeContainer() {
