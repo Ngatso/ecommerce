@@ -62,7 +62,8 @@ const day = readabledata.getDate();
  const month = readabledata.toLocaleString("en-US", { month: "short" });
 const options = { hour12: true };
 const timeString = readabledata.toLocaleTimeString("en-US", options);
-  function addHttp(registerUrl: any): string | undefined {
+  function addHttp(registerUrl: string | null): string | null {
+    if (!registerUrl) return null;
     if (registerUrl.startsWith("http://") || registerUrl.startsWith("https://")) {
     return registerUrl;
     } else {
@@ -94,21 +95,23 @@ const timeString = readabledata.toLocaleTimeString("en-US", options);
         </div>
       </div>
       <div className="w-3/4 px-4 flex justify-start flex-col items-start">
-        <Link to={`/events/${title}`} >
+        <Link to={`/events/${title}`}>
           <h2 className="text-2xl  mb-2" style={{ wordSpacing: "3px" }}>
             {title}
           </h2>
         </Link>
-        <br/>
+        <br />
         <p className="text-gray-600 mb-2"> {timeString}</p>
         <p className="text-gray-600 mb-2">{venue}</p>
+        {addHttp(registerUrl) &&
         <a
-          href={addHttp(registerUrl)}
-          target="_blank"
-          className="text-blue-500 underline mb-2"
+        href={addHttp(registerUrl)!}
+        target="_blank"
+        className="text-blue-500 underline mb-2"
         >
           Register
         </a>
+        }
         <p className="text-gray-800">{description}</p>
       </div>
     </div>
